@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import dynamic from 'next/dynamic';
 import { MelaEvent, UserProfile, EventFilters, UserStatus, FloorPlan } from '@/types';
 import Navbar from '@/components/layout/Navbar';
 import DashboardStats from '@/components/dashboard/DashboardStats';
 import FilterBar from '@/components/dashboard/FilterBar';
 import EventCard from '@/components/dashboard/EventCard';
+import EventTableView from '@/components/dashboard/EventTableView';
 import EventDetailModal from '@/components/events/EventDetailModal';
 import ResearchAssistantModal from '@/components/research/ResearchAssistantModal';
 import SettingsModal from '@/components/settings/SettingsModal';
@@ -23,17 +23,6 @@ import {
   Loader2,
 } from 'lucide-react';
 
-// Dynamic import of EventMap with SSR disabled (Leaflet & Google Maps require window)
-const EventMap = dynamic(() => import('@/components/map/EventMap'), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-full min-h-[420px] rounded-xl bg-[#0c1510] border border-[#1c3327] flex items-center justify-center text-[#6e8a7b] text-xs">
-      <Loader2 className="w-6 h-6 animate-spin text-[#00df81] mb-2" />
-      <span>Loading Delhi NCR Map Engine...</span>
-    </div>
-  ),
-});
-
 export default function HomePage() {
   const [events, setEvents] = useState<MelaEvent[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<MelaEvent | null>(null);
@@ -42,6 +31,7 @@ export default function HomePage() {
   });
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [activeView, setActiveView] = useState<'map' | 'pipeline'>('map');
+  const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isScouting, setIsScouting] = useState<boolean>(false);
 
@@ -78,14 +68,19 @@ export default function HomePage() {
     try {
       const params = new URLSearchParams();
       if (currentFilters.searchQuery) params.set('q', currentFilters.searchQuery);
+      if (currentFilters.city && currentFilters.city !== 'all') params.set('city', currentFilters.city);
       if (currentFilters.locality && currentFilters.locality !== 'all') params.set('locality', currentFilters.locality);
       if (currentFilters.eventType && currentFilters.eventType !== 'all') params.set('eventType', currentFilters.eventType);
       if (currentFilters.venueContext && currentFilters.venueContext !== 'all') params.set('venueContext', currentFilters.venueContext);
       if (currentFilters.dateHorizonDays) params.set('horizon', currentFilters.dateHorizonDays.toString());
-      if (currentFilters.minScore) params.set('minScore', currentFilters.minScore.toString());
+      if (currentFilters.startDate) params.set('startDate', currentFilters.startDate);
+      if (currentFilters.endDate) params.set('endDate', currentFilters.endDate);
+      if (currentFilters.minFitScore) params.set('minScore', currentFilters.minFitScore.toString());
+      else if (currentFilters.minScore) params.set('minScore', currentFilters.minScore.toString());
       if (currentFilters.maxStallFee) params.set('maxFee', currentFilters.maxStallFee.toString());
       if (currentFilters.verifiedOnly) params.set('verifiedOnly', 'true');
-      if (currentFilters.bookingLinkOnly) params.set('bookingLinkOnly', 'true');
+      if (currentFilters.hasBookingLink || currentFilters.bookingLinkOnly) params.set('bookingLinkOnly', 'true');
+      if (currentFilters.hasFloorPlanOnly) params.set('hasFloorPlanOnly', 'true');
       if (currentFilters.userStatus && currentFilters.userStatus !== 'all') params.set('status', currentFilters.userStatus);
       if (currentFilters.sortBy) params.set('sortBy', currentFilters.sortBy);
 
@@ -93,7 +88,6 @@ export default function HomePage() {
       const data = await res.json();
       if (data.events) {
         setEvents(data.events);
-        // If selected event was updated or deleted
         if (selectedEvent) {
           const refreshed = data.events.find((e: MelaEvent) => e.id === selectedEvent.id);
           setSelectedEvent(refreshed || null);
@@ -120,11 +114,6 @@ export default function HomePage() {
 
   function handleSelectEvent(event: MelaEvent) {
     setSelectedEvent(event);
-    // Scroll corresponding event card into view if in map view
-    const cardElement = document.getElementById(`card-${event.id}`);
-    if (cardElement) {
-      cardElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
   }
 
   function handleOpenDetails(event: MelaEvent) {
@@ -161,10 +150,14 @@ export default function HomePage() {
       });
       if (res.ok) {
         setEvents((prev) =>
-          prev.map((e) => (e.id === eventId ? { ...e, user_notes: notes, next_action_at: nextActionAt } : e))
+          prev.map((e) =>
+            e.id === eventId ? { ...e, user_notes: notes, next_action_at: nextActionAt } : e
+          )
         );
         if (selectedEvent?.id === eventId) {
-          setSelectedEvent((prev) => (prev ? { ...prev, user_notes: notes, next_action_at: nextActionAt } : null));
+          setSelectedEvent((prev) =>
+            prev ? { ...prev, user_notes: notes, next_action_at: nextActionAt } : null
+          );
         }
       }
     } catch (err) {
@@ -174,13 +167,13 @@ export default function HomePage() {
 
   async function handleRefreshSources(eventId: string) {
     try {
-      const res = await fetch(`/api/events/${eventId}/refresh`, {
-        method: 'POST',
-      });
+      const res = await fetch(`/api/events/${eventId}/refresh`, { method: 'POST' });
       const data = await res.json();
       if (data.event) {
         setEvents((prev) => prev.map((e) => (e.id === eventId ? data.event : e)));
-        setSelectedEvent(data.event);
+        if (selectedEvent?.id === eventId) {
+          setSelectedEvent(data.event);
+        }
       }
     } catch (err) {
       console.error('Failed refreshing sources:', err);
@@ -189,9 +182,7 @@ export default function HomePage() {
 
   async function handleDeleteEvent(eventId: string) {
     try {
-      const res = await fetch(`/api/events/${eventId}`, {
-        method: 'DELETE',
-      });
+      const res = await fetch(`/api/events/${eventId}`, { method: 'DELETE' });
       if (res.ok) {
         setEvents((prev) => prev.filter((e) => e.id !== eventId));
         if (selectedEvent?.id === eventId) {
@@ -205,17 +196,29 @@ export default function HomePage() {
 
   async function handleSaveManualEvent(eventData: Partial<MelaEvent>) {
     try {
-      const method = eventData.id ? 'PATCH' : 'POST';
-      const endpoint = eventData.id ? `/api/events/${eventData.id}` : '/api/events';
-
-      const res = await fetch(endpoint, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(eventData),
-      });
-
-      if (res.ok) {
-        fetchEvents(filters);
+      if (eventData.id) {
+        // Edit existing
+        const res = await fetch(`/api/events/${eventData.id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(eventData),
+        });
+        if (res.ok) {
+          fetchEvents(filters);
+          setIsEditOpen(false);
+          setEditingEvent(null);
+        }
+      } else {
+        // Create new
+        const res = await fetch('/api/events', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(eventData),
+        });
+        if (res.ok) {
+          fetchEvents(filters);
+          setIsAddEventOpen(false);
+        }
       }
     } catch (err) {
       console.error('Failed saving event:', err);
@@ -227,11 +230,16 @@ export default function HomePage() {
       const res = await fetch(`/api/events/${eventId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ floor_plan: floorPlan, has_floor_plan: true }),
+        body: JSON.stringify({
+          floor_plan: floorPlan,
+          has_floor_plan: true,
+        }),
       });
       if (res.ok) {
         setEvents((prev) =>
-          prev.map((e) => (e.id === eventId ? { ...e, floor_plan: floorPlan, has_floor_plan: true } : e))
+          prev.map((e) =>
+            e.id === eventId ? { ...e, floor_plan: floorPlan, has_floor_plan: true } : e
+          )
         );
         if (selectedEvent?.id === eventId) {
           setSelectedEvent((prev) =>
@@ -244,6 +252,10 @@ export default function HomePage() {
     }
   }
 
+  async function handleExportCsv() {
+    window.open('/api/export', '_blank');
+  }
+
   async function handleScoutNow() {
     setIsScouting(true);
     try {
@@ -251,40 +263,30 @@ export default function HomePage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          query: 'Discover upcoming Delhi NCR melas, craft markets, and flea market stalls from BookEventStall, Fleamela, and live sources',
-          dateHorizonDays: 45,
+          query: 'Discover upcoming Diwali & pre-Christmas winter melas across Delhi, Gurugram, and Noida with confirmed stall fees through Dec 23',
+          dateHorizonDays: 60,
         }),
       });
       if (res.ok) {
-        await fetchEvents(filters);
+        fetchEvents(filters);
       }
     } catch (err) {
-      console.error('Failed running quick scout:', err);
+      console.error('Failed auto scout:', err);
     } finally {
       setIsScouting(false);
     }
   }
 
-  function handleExportCsv() {
-    const params = new URLSearchParams();
-    if (filters.searchQuery) params.set('q', filters.searchQuery);
-    if (filters.locality && filters.locality !== 'all') params.set('locality', filters.locality);
-    if (filters.eventType && filters.eventType !== 'all') params.set('eventType', filters.eventType);
-    if (filters.verifiedOnly) params.set('verifiedOnly', 'true');
-    if (filters.bookingLinkOnly) params.set('bookingLinkOnly', 'true');
-    if (filters.userStatus) params.set('status', filters.userStatus);
-
-    window.open(`/api/export?${params.toString()}`, '_blank');
-  }
-
-  const savedCount = events.filter((e) => e.user_status === 'saved' || e.user_status === 'applied' || e.user_status === 'contacted').length;
+  const savedCount = events.filter(
+    (e) => e.user_status === 'saved' || e.user_status === 'applied' || e.user_status === 'booked'
+  ).length;
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 font-sans">
-      {/* 1. Navigation Bar */}
+    <div className="min-h-screen bg-[#060b08] text-[#f0fdf4] flex flex-col font-sans selection:bg-[#00df81]/30 selection:text-[#00ff87]">
+      {/* 1. Header Navigation */}
       <Navbar
         activeView={activeView}
-        onViewChange={(v) => setActiveView(v)}
+        onViewChange={setActiveView}
         onOpenResearch={() => setIsResearchOpen(true)}
         onOpenAddEvent={() => setIsAddEventOpen(true)}
         onOpenSettings={() => setIsSettingsOpen(true)}
@@ -293,10 +295,14 @@ export default function HomePage() {
         savedCount={savedCount}
       />
 
-      {/* 2. Top Dashboard Widgets Bar */}
+      {/* 2. Commercial Intelligence Stats Header */}
       <DashboardStats
         events={events}
-        onFilterMissingPrices={() => handleFilterChange({ maxStallFee: undefined })}
+        onFilterMissingPrices={() => {
+          setEvents((prev) =>
+            prev.filter((e) => e.stall_fee_max === null || e.stall_fee_max === undefined)
+          );
+        }}
         onFilterFloorPlans={() => {
           setEvents((prev) => prev.filter((e) => e.has_floor_plan));
         }}
@@ -305,7 +311,7 @@ export default function HomePage() {
         isScouting={isScouting}
       />
 
-      {/* Main View: Map Dashboard OR Pipeline View */}
+      {/* Main View: Discovery Workspace OR Pipeline View */}
       {activeView === 'pipeline' ? (
         <PipelineView
           events={events}
@@ -316,7 +322,7 @@ export default function HomePage() {
         />
       ) : (
         <div className="flex-1 flex flex-col">
-          {/* 3. Filter Bar */}
+          {/* 3. Intuitive Filter & View Bar */}
           <FilterBar
             filters={filters}
             onFilterChange={handleFilterChange}
@@ -325,60 +331,57 @@ export default function HomePage() {
             onOpenAddEvent={() => setIsAddEventOpen(true)}
             onOpenResearch={() => setIsResearchOpen(true)}
             totalCount={events.length}
+            viewMode={viewMode}
+            onViewModeChange={setViewMode}
           />
 
-          {/* 4. Split Layout: Synchronised Cards List + Interactive Map */}
-          <div className="flex-1 flex flex-col-reverse lg:flex-row overflow-hidden relative">
-            {/* Left Column: Event Cards List */}
-            <div
-              ref={cardListRef}
-              className="w-full lg:w-[480px] xl:w-[540px] flex-shrink-0 h-[50vh] lg:h-[calc(100vh-210px)] overflow-y-auto p-4 space-y-3.5 border-r border-[#1c3327] bg-[#060b08]/95"
-            >
-              {isLoading ? (
-                <div className="flex flex-col items-center justify-center py-24 text-[#6e8a7b] text-xs">
-                  <Loader2 className="w-8 h-8 animate-spin text-[#00df81] mb-2" />
-                  <span>Loading opportunities across Delhi NCR...</span>
+          {/* 4. Full-Width Intuitive Content Workspace (Map Removed) */}
+          <div className="flex-1 p-4 sm:p-6 max-w-7xl mx-auto w-full">
+            {isLoading ? (
+              <div className="flex flex-col items-center justify-center py-28 text-[#6e8a7b] text-sm">
+                <Loader2 className="w-8 h-8 animate-spin text-[#00df81] mb-3" />
+                <span>Loading opportunities across Delhi NCR...</span>
+              </div>
+            ) : events.length === 0 ? (
+              <div className="text-center py-24 text-[#6e8a7b] space-y-3 bg-[#0c1510] border border-[#1c3327] rounded-2xl p-8 max-w-md mx-auto">
+                <Inbox className="w-12 h-12 mx-auto text-[#1c3327]" />
+                <div>
+                  <h4 className="font-bold text-[#f0fdf4] text-base">No matching events found</h4>
+                  <p className="text-xs text-[#6e8a7b] mt-1">
+                    Try clearing your filters or launching an AI Scout run to discover new listings across Delhi NCR.
+                  </p>
                 </div>
-              ) : events.length === 0 ? (
-                <div className="text-center py-20 text-[#6e8a7b] space-y-3">
-                  <Inbox className="w-12 h-12 mx-auto text-[#1c3327]" />
-                  <div>
-                    <h4 className="font-bold text-[#f0fdf4] text-sm">No matching events found</h4>
-                    <p className="text-xs text-[#6e8a7b] max-w-xs mx-auto mt-1">
-                      Try relaxing your filters or launching an AI Scout run to discover new listings across Delhi NCR.
-                    </p>
-                  </div>
-                  <button
-                    onClick={handleResetFilters}
-                    className="px-4 py-1.5 bg-[#0f1a14] hover:bg-[#15241c] text-[#f0fdf4] border border-[#1c3327] font-medium text-xs rounded-lg transition"
-                  >
-                    Reset Filters
-                  </button>
-                </div>
-              ) : (
-                events.map((ev) => (
-                  <div key={ev.id} id={`card-${ev.id}`}>
-                    <EventCard
-                      event={ev}
-                      isSelected={selectedEvent?.id === ev.id}
-                      onSelect={() => handleSelectEvent(ev)}
-                      onOpenDetails={() => handleOpenDetails(ev)}
-                      onStatusChange={(newStatus) => handleStatusChange(ev.id, newStatus)}
-                    />
-                  </div>
-                ))
-              )}
-            </div>
-
-            {/* Right Column: Central Interactive Map */}
-            <div className="flex-1 h-[45vh] lg:h-[calc(100vh-210px)] p-3 lg:p-4 bg-[#060b08]">
-              <EventMap
+                <button
+                  onClick={handleResetFilters}
+                  className="px-4 py-2 bg-[#0f1a14] hover:bg-[#15241c] text-[#f0fdf4] border border-[#1c3327] font-semibold text-xs rounded-xl transition"
+                >
+                  Reset Filters
+                </button>
+              </div>
+            ) : viewMode === 'grid' ? (
+              /* High-impact 3-column / 2-column Grid */
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {events.map((ev) => (
+                  <EventCard
+                    key={ev.id}
+                    event={ev}
+                    isSelected={selectedEvent?.id === ev.id}
+                    onSelect={() => handleSelectEvent(ev)}
+                    onOpenDetails={() => handleOpenDetails(ev)}
+                    onStatusChange={(newStatus) => handleStatusChange(ev.id, newStatus)}
+                  />
+                ))}
+              </div>
+            ) : (
+              /* Comparison Spreadsheet Table */
+              <EventTableView
                 events={events}
                 selectedEvent={selectedEvent}
                 onSelectEvent={handleSelectEvent}
                 onOpenDetails={handleOpenDetails}
+                onStatusChange={handleStatusChange}
               />
-            </div>
+            )}
           </div>
         </div>
       )}

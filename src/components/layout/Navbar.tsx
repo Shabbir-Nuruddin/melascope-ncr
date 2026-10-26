@@ -78,8 +78,8 @@ export default function Navbar({
               : 'text-[#6e8a7b] hover:text-[#f0fdf4] hover:bg-[#121e17]'
           }`}
         >
-          <Map className="w-4 h-4" />
-          <span className="hidden md:inline">Map & Discovery</span>
+          <Compass className="w-4 h-4" />
+          <span className="hidden md:inline">Opportunities Hub</span>
         </button>
 
         <button
