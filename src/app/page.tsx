@@ -27,9 +27,9 @@ import {
 const EventMap = dynamic(() => import('@/components/map/EventMap'), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-full min-h-[420px] rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-500 text-xs">
-      <Loader2 className="w-6 h-6 animate-spin text-amber-400 mb-2" />
-      <span>Loading Delhi NCR Map...</span>
+    <div className="w-full h-full min-h-[420px] rounded-xl bg-[#0c1510] border border-[#1c3327] flex items-center justify-center text-[#6e8a7b] text-xs">
+      <Loader2 className="w-6 h-6 animate-spin text-[#00df81] mb-2" />
+      <span>Loading Delhi NCR Map Engine...</span>
     </div>
   ),
 });
@@ -332,25 +332,25 @@ export default function HomePage() {
             {/* Left Column: Event Cards List */}
             <div
               ref={cardListRef}
-              className="w-full lg:w-[480px] xl:w-[540px] flex-shrink-0 h-[50vh] lg:h-[calc(100vh-210px)] overflow-y-auto p-4 space-y-3.5 border-r border-slate-800 bg-slate-950/90"
+              className="w-full lg:w-[480px] xl:w-[540px] flex-shrink-0 h-[50vh] lg:h-[calc(100vh-210px)] overflow-y-auto p-4 space-y-3.5 border-r border-[#1c3327] bg-[#060b08]/95"
             >
               {isLoading ? (
-                <div className="flex flex-col items-center justify-center py-24 text-slate-500 text-xs">
-                  <Loader2 className="w-8 h-8 animate-spin text-amber-400 mb-2" />
+                <div className="flex flex-col items-center justify-center py-24 text-[#6e8a7b] text-xs">
+                  <Loader2 className="w-8 h-8 animate-spin text-[#00df81] mb-2" />
                   <span>Loading opportunities across Delhi NCR...</span>
                 </div>
               ) : events.length === 0 ? (
-                <div className="text-center py-20 text-slate-500 space-y-3">
-                  <Inbox className="w-12 h-12 mx-auto text-slate-700" />
+                <div className="text-center py-20 text-[#6e8a7b] space-y-3">
+                  <Inbox className="w-12 h-12 mx-auto text-[#1c3327]" />
                   <div>
-                    <h4 className="font-bold text-slate-300 text-sm">No matching events found</h4>
-                    <p className="text-xs text-slate-500 max-w-xs mx-auto mt-1">
+                    <h4 className="font-bold text-[#f0fdf4] text-sm">No matching events found</h4>
+                    <p className="text-xs text-[#6e8a7b] max-w-xs mx-auto mt-1">
                       Try relaxing your filters or launching an AI Scout run to discover new listings across Delhi NCR.
                     </p>
                   </div>
                   <button
                     onClick={handleResetFilters}
-                    className="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-xs rounded-lg transition"
+                    className="px-4 py-1.5 bg-[#0f1a14] hover:bg-[#15241c] text-[#f0fdf4] border border-[#1c3327] font-medium text-xs rounded-lg transition"
                   >
                     Reset Filters
                   </button>
@@ -371,7 +371,7 @@ export default function HomePage() {
             </div>
 
             {/* Right Column: Central Interactive Map */}
-            <div className="flex-1 h-[45vh] lg:h-[calc(100vh-210px)] p-3 lg:p-4 bg-slate-950">
+            <div className="flex-1 h-[45vh] lg:h-[calc(100vh-210px)] p-3 lg:p-4 bg-[#060b08]">
               <EventMap
                 events={events}
                 selectedEvent={selectedEvent}

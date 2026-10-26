@@ -64,19 +64,19 @@ export default function EventEditDialog({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-sm overflow-y-auto">
-      <div className="relative w-full max-w-2xl bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#060b08]/85 backdrop-blur-md overflow-y-auto">
+      <div className="relative w-full max-w-2xl bg-[#0c1510] border border-[#1c3327] rounded-2xl shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b border-slate-800 bg-slate-950/80">
+        <div className="flex items-center justify-between p-5 border-b border-[#1c3327] bg-[#060b08]/80">
           <div className="flex items-center gap-2">
-            <Edit className="w-5 h-5 text-amber-400" />
+            <Edit className="w-5 h-5 text-[#00df81]" />
             <h3 className="font-bold text-white text-base">
               {form.id ? 'Edit Opportunity' : 'Add Opportunity Manually'}
             </h3>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-white rounded-lg bg-slate-800 transition"
+            className="p-1.5 text-[#6e8a7b] hover:text-white rounded-lg bg-[#0f1a14] border border-[#1c3327] transition"
           >
             <X className="w-5 h-5" />
           </button>
@@ -303,17 +303,17 @@ export default function EventEditDialog({
           </div>
 
           {/* Footer Actions */}
-          <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-800">
+          <div className="flex items-center justify-end gap-2 pt-3 border-t border-[#1c3327]">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg font-medium"
+              className="px-4 py-2 bg-[#0f1a14] hover:bg-[#15241c] text-[#f0fdf4] border border-[#1c3327] rounded-lg font-medium"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-5 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-lg shadow transition"
+              className="px-5 py-2 bg-[#00df81] hover:bg-[#00ff87] text-[#060b08] font-bold rounded-lg shadow-lg shadow-[#00df81]/20 transition"
             >
               Save Opportunity
             </button>

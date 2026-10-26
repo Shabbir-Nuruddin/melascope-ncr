@@ -75,17 +75,17 @@ export default function ResearchAssistantModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-sm overflow-y-auto">
-      <div className="relative w-full max-w-3xl bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden my-auto max-h-[90vh] flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#060b08]/85 backdrop-blur-md overflow-y-auto">
+      <div className="relative w-full max-w-3xl bg-[#0c1510] border border-[#1c3327] rounded-2xl shadow-2xl overflow-hidden my-auto max-h-[90vh] flex flex-col">
         {/* Modal Header */}
-        <div className="flex items-center justify-between p-5 border-b border-slate-800 bg-slate-950/80">
+        <div className="flex items-center justify-between p-5 border-b border-[#1c3327] bg-[#060b08]/80">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 to-festive-600 flex items-center justify-center text-slate-950 shadow-md">
-              <Sparkles className="w-5 h-5" />
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#00df81] to-[#059669] flex items-center justify-center text-[#060b08] shadow-md shadow-[#00df81]/20">
+              <Sparkles className="w-5 h-5 text-[#060b08]" />
             </div>
             <div>
-              <h3 className="font-bold text-white text-lg">AI Event Research Assistant</h3>
-              <p className="text-xs text-slate-400">
+              <h3 className="font-black text-white text-lg">TETR Scout • Event Discovery Engine</h3>
+              <p className="text-xs text-[#6e8a7b]">
                 Delhi NCR multi-source discovery, verification & commercial scoring
               </p>
             </div>
@@ -93,7 +93,7 @@ export default function ResearchAssistantModal({
 
           <button
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-white rounded-lg bg-slate-800 transition"
+            className="p-1.5 text-[#6e8a7b] hover:text-white rounded-lg bg-[#0f1a14] border border-[#1c3327] transition"
           >
             <X className="w-5 h-5" />
           </button>
@@ -103,7 +103,7 @@ export default function ResearchAssistantModal({
         <div className="p-5 sm:p-6 overflow-y-auto space-y-5">
           {/* Query Input Box */}
           <div className="space-y-3">
-            <label className="text-xs font-semibold text-slate-300 block">
+            <label className="text-xs font-semibold text-[#f0fdf4] block">
               Describe what events or vendor opportunities you want to discover:
             </label>
             <div className="relative">
@@ -112,13 +112,13 @@ export default function ResearchAssistantModal({
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="e.g. Find weekend melas in Gurugram and Noida over the next 45 days with published stall fees under ₹25,000..."
-                className="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500"
+                className="w-full bg-[#060b08] border border-[#1c3327] rounded-xl p-3 text-sm text-[#f0fdf4] placeholder-[#6e8a7b] focus:outline-none focus:ring-2 focus:ring-[#00df81]/40 focus:border-[#00df81]"
               />
             </div>
 
             {/* Quick Suggestions */}
             <div>
-              <span className="text-[11px] text-slate-400 block mb-1.5 font-medium">Quick prompt ideas:</span>
+              <span className="text-[11px] text-[#6e8a7b] block mb-1.5 font-medium">Quick prompt ideas:</span>
               <div className="flex flex-wrap gap-1.5">
                 {PRESET_QUERIES.map((preset, i) => (
                   <button
@@ -127,7 +127,7 @@ export default function ResearchAssistantModal({
                       setQuery(preset);
                       handleLaunchRun(preset);
                     }}
-                    className="text-[11px] text-left bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-amber-300 border border-slate-700/80 px-2.5 py-1 rounded-lg transition"
+                    className="text-[11px] text-left bg-[#0f1a14] hover:bg-[#15241c] text-[#f0fdf4] hover:text-[#00df81] border border-[#1c3327] hover:border-[#00df81]/40 px-2.5 py-1 rounded-lg transition"
                   >
                     + {preset}
                   </button>
@@ -137,17 +137,17 @@ export default function ResearchAssistantModal({
 
             {/* Controls Row */}
             <div className="flex items-center justify-between gap-3 pt-2">
-              <div className="flex items-center gap-2 text-xs text-slate-400">
+              <div className="flex items-center gap-2 text-xs text-[#6e8a7b]">
                 <span>Horizon:</span>
                 <select
                   value={horizonDays}
                   onChange={(e) => setHorizonDays(parseInt(e.target.value, 10))}
-                  className="bg-slate-950 border border-slate-700 rounded-md py-1 px-2 text-slate-200"
+                  className="bg-[#060b08] border border-[#1c3327] rounded-md py-1 px-2 text-[#f0fdf4] focus:outline-none focus:border-[#00df81]"
                 >
                   <option value={15}>Next 15 Days</option>
                   <option value={30}>Next 30 Days</option>
                   <option value={45}>Next 45 Days (Default)</option>
-                  <option value={60}>Next 60 Days</option>
+                  <option value={60}>Next 60 Days (Through Dec 23)</option>
                   <option value={90}>Next 90 Days</option>
                 </select>
               </div>
@@ -155,16 +155,16 @@ export default function ResearchAssistantModal({
               <button
                 onClick={() => handleLaunchRun()}
                 disabled={isRunning || !query.trim()}
-                className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-500 to-festive-600 hover:from-amber-400 hover:to-festive-500 disabled:opacity-50 text-slate-950 font-bold rounded-xl text-xs shadow-lg transition active:scale-95"
+                className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#00df81] to-[#059669] hover:from-[#00ff87] hover:to-[#10b981] disabled:opacity-50 text-[#060b08] font-black rounded-xl text-xs shadow-lg shadow-[#00df81]/25 transition active:scale-95"
               >
                 {isRunning ? (
                   <>
-                    <RefreshCw className="w-4 h-4 animate-spin text-slate-950" />
+                    <RefreshCw className="w-4 h-4 animate-spin text-[#060b08]" />
                     <span>Executing Discovery Pipeline...</span>
                   </>
                 ) : (
                   <>
-                    <Search className="w-4 h-4 text-slate-950" />
+                    <Search className="w-4 h-4 text-[#060b08]" />
                     <span>Start Research Run</span>
                   </>
                 )}
@@ -182,84 +182,61 @@ export default function ResearchAssistantModal({
 
           {/* Running Progress or Run Results */}
           {isRunning && (
-            <div className="p-5 rounded-xl bg-slate-950 border border-slate-800 space-y-3 animate-pulse">
-              <div className="flex items-center justify-between text-xs text-slate-300">
-                <span className="font-semibold text-amber-400">Searching Delhi NCR sources & calendar registries...</span>
+            <div className="p-5 rounded-xl bg-[#060b08] border border-[#1c3327] space-y-3 animate-pulse">
+              <div className="flex items-center justify-between text-xs text-[#f0fdf4]">
+                <span className="font-semibold text-[#00df81]">Searching Delhi NCR sources & calendar registries...</span>
                 <span>In progress</span>
               </div>
-              <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                <div className="bg-amber-500 h-full w-2/3 rounded-full animate-progress" />
+              <div className="w-full bg-[#0f1a14] h-2 rounded-full overflow-hidden">
+                <div className="bg-[#00df81] h-full w-2/3 rounded-full animate-progress" />
               </div>
-              <p className="text-[11px] text-slate-500">
-                Parsing official organiser announcements, cross-referencing Dilli Haat, Noida Haat, Epicentre, and society RWAs...
+              <p className="text-[11px] text-[#6e8a7b]">
+                Parsing official organiser announcements, cross-referencing Dilli Haat, Sunder Nursery, Epicentre, and society RWAs...
               </p>
             </div>
           )}
 
           {activeRun && (
-            <div className="space-y-4 pt-2 border-t border-slate-800">
-              {/* Summary Card */}
-              <div className="p-4 rounded-xl bg-slate-950 border border-slate-800">
+            <div className="space-y-4 pt-2 border-t border-[#1c3327]">
+              {/* Summary Box */}
+              <div className="p-4 rounded-xl bg-[#060b08] border border-[#1c3327]">
                 <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-400">
-                    <CheckCircle2 className="w-4 h-4" />
-                    <span>Research Run Completed</span>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#00df81]" />
+                    <span className="font-bold text-white text-xs">Run Completed Successfully</span>
                   </div>
-                  <span className="text-[11px] text-slate-400">
-                    {new Date(activeRun.completed_at || activeRun.started_at).toLocaleTimeString('en-IN', {
-                      timeZone: 'Asia/Kolkata',
-                    })}
+                  <span className="text-[10px] text-[#6e8a7b]">
+                    {activeRun.source_count} sources examined • {activeRun.events_found} events found
                   </span>
                 </div>
-                <p className="text-xs text-slate-200 mb-2 leading-relaxed">{activeRun.summary}</p>
-                <div className="flex items-center gap-4 text-[11px] text-slate-400 pt-2 border-t border-slate-850">
-                  <span>Target Range: <strong className="text-slate-300">{horizonDays} Days</strong></span>
-                  <span>Sources Checked: <strong className="text-slate-300">{activeRun.source_count}</strong></span>
-                  <span>Results Added/Updated: <strong className="text-amber-400">{activeRun.events_found}</strong></span>
+                <p className="text-xs text-[#f0fdf4] leading-relaxed mb-3">
+                  {activeRun.summary}
+                </p>
+
+                {/* Evidence Caveat */}
+                <div className="p-2.5 rounded-lg bg-[#0f1a14] border border-[#1c3327] text-[11px] text-[#6e8a7b]">
+                  <strong className="text-[#00df81]">TETR Data Verification Standard:</strong> New events found have been persisted to your local database with source citations. Unverified leads are marked explicitly.
                 </div>
               </div>
 
-              {/* Real-time Execution Logs Console */}
-              <div className="rounded-xl bg-slate-950 border border-slate-800 p-4 font-mono text-[11px] text-slate-300">
-                <div className="flex items-center gap-2 mb-2 pb-1.5 border-b border-slate-800 text-slate-400 text-xs">
-                  <Terminal className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Pipeline Execution Trace & Audit Trail</span>
+              {/* Discovery Logs Terminal */}
+              <div className="rounded-xl bg-[#060b08] border border-[#1c3327] p-3 text-xs font-mono">
+                <div className="flex items-center gap-2 text-[#6e8a7b] text-[11px] pb-2 border-b border-[#1c3327] mb-2">
+                  <Terminal className="w-3.5 h-3.5 text-[#00df81]" />
+                  <span>Pipeline Execution Logs ({activeRun.logs?.length || 0} steps)</span>
                 </div>
-                <div className="max-h-48 overflow-y-auto space-y-1.5 pr-1">
-                  {activeRun.logs.map((log, idx) => (
-                    <div key={idx} className="flex items-start gap-2 leading-tight">
-                      <span className="text-slate-600 text-[10px] select-none">
-                        {new Date(log.timestamp).toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour12: false })}
+                <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+                  {activeRun.logs?.map((log: ResearchLogEntry, i: number) => (
+                    <div key={i} className="flex items-start gap-2 text-[11px]">
+                      <span className="text-[#6e8a7b] flex-shrink-0">
+                        [{log.level.toUpperCase()}]
                       </span>
-                      <span
-                        className={`font-semibold uppercase text-[9px] px-1 rounded ${
-                          log.level === 'error'
-                            ? 'bg-red-950 text-red-400'
-                            : log.level === 'success'
-                            ? 'bg-emerald-950 text-emerald-400'
-                            : log.level === 'warn'
-                            ? 'bg-amber-950 text-amber-400'
-                            : 'bg-slate-800 text-slate-400'
-                        }`}
-                      >
-                        {log.level}
-                      </span>
-                      <span className={log.level === 'success' ? 'text-emerald-300' : 'text-slate-300'}>
+                      <span className={log.level === 'success' ? 'text-[#00df81]' : log.level === 'error' ? 'text-red-400' : 'text-[#f0fdf4]'}>
                         {log.message}
                       </span>
                     </div>
                   ))}
                 </div>
-              </div>
-
-              {/* View on Map CTA */}
-              <div className="flex justify-end pt-1">
-                <button
-                  onClick={onClose}
-                  className="px-5 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-xs shadow transition"
-                >
-                  View Discovered Opportunities on Map
-                </button>
               </div>
             </div>
           )}

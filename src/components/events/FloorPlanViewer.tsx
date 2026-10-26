@@ -91,22 +91,22 @@ export default function FloorPlanViewer({
   }
 
   return (
-    <div className="rounded-xl border border-slate-800 bg-slate-950/70 p-4 space-y-3">
+    <div className="rounded-xl border border-[#1c3327] bg-[#060b08] p-4 space-y-3">
       {/* Section Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2.5 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2.5 border-b border-[#1c3327]">
         <div>
           <div className="flex items-center gap-2">
-            <Layers className="w-4 h-4 text-amber-400" />
+            <Layers className="w-4 h-4 text-[#00df81]" />
             <h4 className="font-bold text-white text-sm">
-              Internal Venue Floor Plan & Stall Layout
+              Venue Floor Plan & Stall Layout Intelligence
             </h4>
             {plan?.is_official && (
-              <span className="text-[10px] px-2 py-0.5 rounded-full font-semibold bg-emerald-950 text-emerald-300 border border-emerald-800">
-                Official Organiser Blueprint
+              <span className="text-[10px] px-2 py-0.5 rounded-full font-semibold bg-[#00df81]/15 text-[#00df81] border border-[#00df81]/30">
+                Official Blueprint
               </span>
             )}
           </div>
-          <p className="text-[11px] text-slate-400">
+          <p className="text-[11px] text-[#6e8a7b]">
             Inspect stall numbers, walkthrough corridors, gates, and exhibitor booths.
           </p>
         </div>
@@ -123,9 +123,9 @@ export default function FloorPlanViewer({
           <button
             onClick={() => fileInputRef.current?.click()}
             disabled={isUploading}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg text-xs font-medium transition"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0f1a14] hover:bg-[#15241c] text-[#f0fdf4] border border-[#1c3327] rounded-lg text-xs font-medium transition"
           >
-            <Upload className="w-3.5 h-3.5 text-amber-400" />
+            <Upload className="w-3.5 h-3.5 text-[#00df81]" />
             <span>{isUploading ? 'Uploading...' : plan ? 'Replace Plan' : 'Upload Floor Plan'}</span>
           </button>
         </div>
@@ -141,37 +141,37 @@ export default function FloorPlanViewer({
       {/* PLAN VIEWER OR EMPTY STATE */}
       {plan ? (
         <div
-          className={`relative rounded-xl border border-slate-800 bg-slate-900 overflow-hidden flex flex-col items-center justify-center transition-all ${
-            isFullscreen ? 'fixed inset-4 z-50 bg-slate-950/95 p-4 shadow-2xl' : 'min-h-[380px] max-h-[500px]'
+          className={`relative rounded-xl border border-[#1c3327] bg-[#0c1510] overflow-hidden flex flex-col items-center justify-center transition-all ${
+            isFullscreen ? 'fixed inset-4 z-50 bg-[#060b08]/95 p-4 shadow-2xl' : 'min-h-[380px] max-h-[500px]'
           }`}
         >
           {/* Controls Bar */}
-          <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5 bg-slate-950/80 backdrop-blur border border-slate-800 rounded-lg p-1 text-slate-300 shadow-md">
+          <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5 bg-[#060b08]/90 backdrop-blur border border-[#1c3327] rounded-lg p-1 text-[#f0fdf4] shadow-md">
             <button
               onClick={handleZoomIn}
-              className="p-1 hover:text-white hover:bg-slate-800 rounded"
+              className="p-1 hover:text-[#00df81] hover:bg-[#0f1a14] rounded"
               title="Zoom In"
             >
               <ZoomIn className="w-4 h-4" />
             </button>
             <button
               onClick={handleZoomOut}
-              className="p-1 hover:text-white hover:bg-slate-800 rounded"
+              className="p-1 hover:text-[#00df81] hover:bg-[#0f1a14] rounded"
               title="Zoom Out"
             >
               <ZoomOut className="w-4 h-4" />
             </button>
             <button
               onClick={handleResetZoom}
-              className="p-1 hover:text-white hover:bg-slate-800 rounded text-[11px] px-1 font-mono"
+              className="p-1 hover:text-[#00df81] hover:bg-[#0f1a14] rounded text-[11px] px-1 font-mono"
               title="Reset Zoom"
             >
               {Math.round(zoomLevel * 100)}%
             </button>
-            <div className="w-px h-3 bg-slate-700" />
+            <div className="w-px h-3 bg-[#1c3327]" />
             <button
               onClick={() => setIsFullscreen(!isFullscreen)}
-              className="p-1 hover:text-white hover:bg-slate-800 rounded"
+              className="p-1 hover:text-[#00df81] hover:bg-[#0f1a14] rounded"
               title={isFullscreen ? 'Exit Full Screen' : 'Full Screen'}
             >
               {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
@@ -179,22 +179,22 @@ export default function FloorPlanViewer({
           </div>
 
           {/* Title & Version Pill */}
-          <div className="absolute top-3 left-3 z-20 bg-slate-950/80 backdrop-blur border border-slate-800 rounded-lg px-2.5 py-1 text-xs text-slate-200">
+          <div className="absolute top-3 left-3 z-20 bg-[#060b08]/90 backdrop-blur border border-[#1c3327] rounded-lg px-2.5 py-1 text-xs text-[#f0fdf4]">
             <span className="font-semibold">{plan.title}</span>
-            {plan.version && <span className="text-slate-400 text-[10px] ml-1.5">({plan.version})</span>}
+            {plan.version && <span className="text-[#6e8a7b] text-[10px] ml-1.5">({plan.version})</span>}
           </div>
 
           {/* Interactive Zoomable View Container */}
           <div className="w-full h-full overflow-auto flex items-center justify-center p-4">
             {plan.file_type === 'pdf' ? (
               <div className="text-center p-8">
-                <FileText className="w-16 h-16 text-amber-400 mx-auto mb-3" />
+                <FileText className="w-16 h-16 text-[#00df81] mx-auto mb-3" />
                 <h5 className="font-semibold text-white text-sm mb-1">{plan.title}</h5>
-                <p className="text-xs text-slate-400 mb-4">PDF Layout Document Attached</p>
+                <p className="text-xs text-[#6e8a7b] mb-4">PDF Layout Document Attached</p>
                 <a
                   href={plan.file_url}
                   download={`${plan.title}.pdf`}
-                  className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-lg text-xs shadow inline-flex items-center gap-1.5"
+                  className="px-4 py-2 bg-[#00df81] hover:bg-[#00ff87] text-[#060b08] font-bold rounded-lg text-xs shadow inline-flex items-center gap-1.5"
                 >
                   <Download className="w-4 h-4" />
                   <span>Download / Open PDF</span>
@@ -212,14 +212,14 @@ export default function FloorPlanViewer({
         </div>
       ) : (
         /* Explicit "Floor plan not found yet" state required by user specification */
-        <div className="rounded-xl border border-dashed border-slate-800 bg-slate-900/50 p-6 text-center space-y-3">
-          <div className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 mx-auto">
-            <Layers className="w-6 h-6 text-slate-500" />
+        <div className="rounded-xl border border-dashed border-[#1c3327] bg-[#0c1510]/50 p-6 text-center space-y-3">
+          <div className="w-12 h-12 rounded-full bg-[#0f1a14] border border-[#1c3327] flex items-center justify-center text-[#6e8a7b] mx-auto">
+            <Layers className="w-6 h-6 text-[#6e8a7b]" />
           </div>
 
           <div>
-            <h5 className="font-bold text-slate-200 text-sm">Floor plan not found yet</h5>
-            <p className="text-xs text-slate-400 max-w-md mx-auto mt-1">
+            <h5 className="font-bold text-[#f0fdf4] text-sm">Floor plan not found yet</h5>
+            <p className="text-xs text-[#6e8a7b] max-w-md mx-auto mt-1">
               No internal hall blueprint, booth layout, or stall map was published in public organiser channels.
             </p>
           </div>
@@ -227,13 +227,13 @@ export default function FloorPlanViewer({
           <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
             <button
               onClick={onRequestFloorPlan}
-              className="px-3.5 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-lg shadow transition"
+              className="px-3.5 py-1.5 bg-[#00df81] hover:bg-[#00ff87] text-[#060b08] font-bold text-xs rounded-lg shadow transition"
             >
               Draft Enquiry for Floor Plan
             </button>
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-medium rounded-lg transition"
+              className="px-3.5 py-1.5 bg-[#0f1a14] hover:bg-[#15241c] text-[#f0fdf4] border border-[#1c3327] text-xs font-medium rounded-lg transition"
             >
               Upload Floor Plan (PDF/Image)
             </button>

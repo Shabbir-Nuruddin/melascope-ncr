@@ -10,6 +10,7 @@ import {
   HelpCircle,
   AlertCircle,
   ArrowUpRight,
+  TrendingUp,
   Search,
 } from 'lucide-react';
 
@@ -45,33 +46,31 @@ export default function DashboardStats({
     return dlMs >= nowMs && dlMs <= nowMs + weekMs;
   }).length;
 
-  const demoCount = events.filter((e) => e.is_demo).length;
-
   return (
-    <div className="bg-slate-950/70 border-b border-slate-800 px-4 py-3">
+    <div className="bg-[#060b08]/80 border-b border-[#1c3327] px-4 py-3 backdrop-blur-sm">
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         {/* Widget 1: Verified Upcoming */}
-        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-3 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-400 text-[11px] mb-1">
-            <span>Verified Events</span>
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+        <div className="bg-[#0c1510] border border-[#1c3327] rounded-xl p-3 flex flex-col justify-between hover:border-[#00df81]/40 transition">
+          <div className="flex items-center justify-between text-[#6e8a7b] text-[11px] mb-1">
+            <span className="font-medium">Verified Events</span>
+            <ShieldCheck className="w-3.5 h-3.5 text-[#00df81]" />
           </div>
-          <div className="text-xl font-bold text-white leading-none">
+          <div className="text-xl font-black text-white leading-none">
             {verifiedCount}
-            <span className="text-xs font-normal text-slate-500 ml-1">/ {events.length}</span>
+            <span className="text-xs font-normal text-[#6e8a7b] ml-1">/ {events.length}</span>
           </div>
         </div>
 
         {/* Widget 2: Deadlines Closing Soon */}
         <div
           onClick={onFilterDeadlines}
-          className="bg-slate-900/90 hover:bg-slate-850 border border-slate-800 hover:border-amber-500/50 rounded-xl p-3 flex flex-col justify-between cursor-pointer transition"
+          className="bg-[#0c1510] hover:bg-[#121e17] border border-[#1c3327] hover:border-[#a3e635]/60 rounded-xl p-3 flex flex-col justify-between cursor-pointer transition group"
         >
-          <div className="flex items-center justify-between text-slate-400 text-[11px] mb-1">
-            <span>Deadlines &lt; 7 Days</span>
-            <Clock className="w-3.5 h-3.5 text-amber-400" />
+          <div className="flex items-center justify-between text-[#6e8a7b] text-[11px] mb-1">
+            <span className="font-medium group-hover:text-[#a3e635] transition">Deadlines &lt; 7 Days</span>
+            <Clock className="w-3.5 h-3.5 text-[#a3e635]" />
           </div>
-          <div className="text-xl font-bold text-amber-400 leading-none">
+          <div className="text-xl font-black text-[#a3e635] leading-none">
             {deadlinesClosingCount}
           </div>
         </div>
@@ -79,13 +78,13 @@ export default function DashboardStats({
         {/* Widget 3: Floor Plans Available */}
         <div
           onClick={onFilterFloorPlans}
-          className="bg-slate-900/90 hover:bg-slate-850 border border-slate-800 hover:border-blue-500/50 rounded-xl p-3 flex flex-col justify-between cursor-pointer transition"
+          className="bg-[#0c1510] hover:bg-[#121e17] border border-[#1c3327] hover:border-[#00df81]/60 rounded-xl p-3 flex flex-col justify-between cursor-pointer transition group"
         >
-          <div className="flex items-center justify-between text-slate-400 text-[11px] mb-1">
-            <span>Floor Plans Available</span>
-            <Layers className="w-3.5 h-3.5 text-blue-400" />
+          <div className="flex items-center justify-between text-[#6e8a7b] text-[11px] mb-1">
+            <span className="font-medium group-hover:text-[#00df81] transition">Floor Plans Ready</span>
+            <Layers className="w-3.5 h-3.5 text-[#00df81]" />
           </div>
-          <div className="text-xl font-bold text-blue-400 leading-none">
+          <div className="text-xl font-black text-[#00df81] leading-none">
             {withFloorPlansCount}
           </div>
         </div>
@@ -93,49 +92,46 @@ export default function DashboardStats({
         {/* Widget 4: Missing Stall Fees */}
         <div
           onClick={onFilterMissingPrices}
-          className="bg-slate-900/90 hover:bg-slate-850 border border-slate-800 hover:border-slate-700 rounded-xl p-3 flex flex-col justify-between cursor-pointer transition"
+          className="bg-[#0c1510] hover:bg-[#121e17] border border-[#1c3327] hover:border-[#6e8a7b] rounded-xl p-3 flex flex-col justify-between cursor-pointer transition"
         >
-          <div className="flex items-center justify-between text-slate-400 text-[11px] mb-1">
-            <span>Fees Unannounced</span>
-            <HelpCircle className="w-3.5 h-3.5 text-slate-500" />
+          <div className="flex items-center justify-between text-[#6e8a7b] text-[11px] mb-1">
+            <span className="font-medium">Fee Unannounced</span>
+            <HelpCircle className="w-3.5 h-3.5 text-[#6e8a7b]" />
           </div>
-          <div className="text-xl font-bold text-slate-300 leading-none">
+          <div className="text-xl font-black text-[#6e8a7b] leading-none">
             {missingPricesCount}
           </div>
         </div>
 
-        {/* Widget 5: Seed / Demo Notice */}
-        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-3 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-400 text-[11px] mb-1">
-            <span>Demo Data State</span>
-            <span className="w-2 h-2 rounded-full bg-amber-400" />
+        {/* Widget 5: Coverage Horizon */}
+        <div className="bg-[#0c1510] border border-[#1c3327] rounded-xl p-3 flex flex-col justify-between">
+          <div className="flex items-center justify-between text-[#6e8a7b] text-[11px] mb-1">
+            <span className="font-medium">Discovery Window</span>
+            <TrendingUp className="w-3.5 h-3.5 text-[#00df81]" />
           </div>
-          <div className="text-xs font-semibold text-slate-300 leading-tight">
-            {demoCount > 0 ? (
-              <span className="text-amber-400/90 font-mono text-[11px]">
-                {demoCount} Demo Records
-              </span>
-            ) : (
-              <span className="text-emerald-400 font-mono text-[11px]">Clean Live DB</span>
-            )}
+          <div className="text-sm font-bold text-white leading-none">
+            Nov – Dec 23
+            <span className="block text-[10px] text-[#6e8a7b] font-normal mt-0.5">Peak NCR Season</span>
           </div>
         </div>
 
-        {/* Widget 6: Quick "Scout Now" */}
-        <div className="bg-gradient-to-br from-amber-950/40 to-slate-900 border border-amber-900/60 rounded-xl p-3 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-amber-400/80 text-[11px] font-medium mb-1">
-            <span>Directory Scout</span>
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+        {/* Widget 6: AI Quick Scout Button */}
+        <button
+          onClick={onScoutNow}
+          disabled={isScouting}
+          className="bg-gradient-to-br from-[#0c1510] to-[#15241c] hover:from-[#15241c] hover:to-[#1c3327] border border-[#00df81]/40 hover:border-[#00df81] rounded-xl p-3 flex flex-col justify-between transition group text-left cursor-pointer shadow-lg shadow-[#00df81]/5"
+        >
+          <div className="flex items-center justify-between text-[11px] text-[#00df81]">
+            <span className="font-bold flex items-center gap-1">
+              <Sparkles className="w-3 h-3 text-[#00df81]" />
+              TETR Scout
+            </span>
+            <ArrowUpRight className="w-3.5 h-3.5 text-[#00df81] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition" />
           </div>
-          <button
-            onClick={onScoutNow}
-            disabled={isScouting}
-            className="w-full py-1.5 px-2 bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-slate-950 font-bold text-xs rounded-lg shadow transition active:scale-95 flex items-center justify-center gap-1"
-          >
-            <Search className="w-3 h-3" />
-            <span>{isScouting ? 'Scouting...' : 'Scout Now'}</span>
-          </button>
-        </div>
+          <div className="text-xs font-bold text-white leading-tight">
+            {isScouting ? 'Scouting Live...' : 'Run Auto-Discovery'}
+          </div>
+        </button>
       </div>
     </div>
   );

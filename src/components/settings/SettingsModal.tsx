@@ -97,33 +97,33 @@ export default function SettingsModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-sm overflow-y-auto">
-      <div className="relative w-full max-w-3xl bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#060b08]/85 backdrop-blur-md overflow-y-auto">
+      <div className="relative w-full max-w-3xl bg-[#0c1510] border border-[#1c3327] rounded-2xl shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b border-slate-800 bg-slate-950/80">
+        <div className="flex items-center justify-between p-5 border-b border-[#1c3327] bg-[#060b08]/80">
           <div>
-            <h3 className="font-bold text-white text-lg">Workspace Settings & Criteria</h3>
-            <p className="text-xs text-slate-400">
+            <h3 className="font-black text-white text-lg">TETR Workspace Settings & Criteria</h3>
+            <p className="text-xs text-[#6e8a7b]">
               Configure product profile, scoring weights, and API integrations
             </p>
           </div>
 
           <button
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-white rounded-lg bg-slate-800 transition"
+            className="p-1.5 text-[#6e8a7b] hover:text-white rounded-lg bg-[#0f1a14] border border-[#1c3327] transition"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex border-b border-slate-800 bg-slate-950/40 px-5 text-xs font-semibold">
+        <div className="flex border-b border-[#1c3327] bg-[#060b08]/50 px-5 text-xs font-semibold">
           <button
             onClick={() => setActiveTab('product')}
             className={`py-3 px-4 border-b-2 flex items-center gap-1.5 transition ${
               activeTab === 'product'
-                ? 'border-amber-500 text-amber-400'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                ? 'border-[#00df81] text-[#00df81]'
+                : 'border-transparent text-[#6e8a7b] hover:text-[#f0fdf4]'
             }`}
           >
             <Package className="w-4 h-4" />
@@ -134,8 +134,8 @@ export default function SettingsModal({
             onClick={() => setActiveTab('weights')}
             className={`py-3 px-4 border-b-2 flex items-center gap-1.5 transition ${
               activeTab === 'weights'
-                ? 'border-amber-500 text-amber-400'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                ? 'border-[#00df81] text-[#00df81]'
+                : 'border-transparent text-[#6e8a7b] hover:text-[#f0fdf4]'
             }`}
           >
             <Sliders className="w-4 h-4" />
@@ -146,8 +146,8 @@ export default function SettingsModal({
             onClick={() => setActiveTab('api')}
             className={`py-3 px-4 border-b-2 flex items-center gap-1.5 transition ${
               activeTab === 'api'
-                ? 'border-amber-500 text-amber-400'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                ? 'border-[#00df81] text-[#00df81]'
+                : 'border-transparent text-[#6e8a7b] hover:text-[#f0fdf4]'
             }`}
           >
             <Key className="w-4 h-4" />
@@ -484,14 +484,14 @@ export default function SettingsModal({
           <div className="flex items-center gap-2">
             <button
               onClick={onClose}
-              className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium rounded-lg transition"
+              className="px-4 py-2 bg-[#0f1a14] hover:bg-[#15241c] text-[#f0fdf4] border border-[#1c3327] text-xs font-medium rounded-lg transition"
             >
               Close
             </button>
             <button
               onClick={handleSave}
               disabled={isSaving}
-              className="flex items-center gap-1.5 px-5 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-lg text-xs shadow transition active:scale-95"
+              className="flex items-center gap-1.5 px-5 py-2 bg-[#00df81] hover:bg-[#00ff87] text-[#060b08] font-bold rounded-lg text-xs shadow-lg shadow-[#00df81]/25 transition active:scale-95"
             >
               <Save className="w-4 h-4" />
               <span>{isSaving ? 'Saving...' : 'Save Settings'}</span>

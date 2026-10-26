@@ -70,8 +70,8 @@ ${missingPoints.map((pt, i) => `${i + 1}. ${pt}`).join('\n')}
 Could you please share the exhibitor prospectus or vendor registration link at your earliest convenience?
 
 Best regards,
-Exhibitor / Retail Brand
-Contact: via MelaScope NCR`;
+Commercial Exhibitor / Retail Brand
+Via MelaScope NCR (TETR Edition)`;
 
   const [draft, setDraft] = useState(generatedMessage);
 
@@ -98,41 +98,64 @@ Contact: via MelaScope NCR`;
       onApplyReplyText(replyText);
     }
     setReplyParsed(true);
+    setTimeout(() => setReplyParsed(false), 3000);
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-sm overflow-y-auto">
-      <div className="relative w-full max-w-2xl bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden my-auto max-h-[90vh] flex flex-col">
+    <div className="fixed inset-0 z-[60] flex items-center justify-center p-3 sm:p-4 bg-[#060b08]/85 backdrop-blur-md overflow-y-auto">
+      <div className="relative w-full max-w-2xl bg-[#0c1510] border border-[#1c3327] rounded-2xl shadow-2xl overflow-hidden my-auto max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b border-slate-800 bg-slate-950/80">
+        <div className="flex items-center justify-between p-4 border-b border-[#1c3327] bg-[#060b08]/80">
           <div className="flex items-center gap-2">
-            <MessageSquare className="w-5 h-5 text-amber-400" />
+            <div className="p-2 rounded-lg bg-[#15241c] text-[#00df81] border border-[#00df81]/30">
+              <MessageSquare className="w-4 h-4" />
+            </div>
             <div>
-              <h3 className="font-bold text-white text-base">Request Missing Details</h3>
-              <p className="text-xs text-slate-400">
-                Tailored enquiry asking only for unconfirmed parameters
+              <h3 className="font-bold text-white text-sm">
+                Request Missing Details from Organiser
+              </h3>
+              <p className="text-[11px] text-[#6e8a7b]">
+                Tailored enquiry asking only for missing fields ({missingPoints.length} detected)
               </p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-white rounded-lg bg-slate-800 transition"
+            className="p-1.5 text-[#6e8a7b] hover:text-white bg-[#0f1a14] rounded-lg transition"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
-        {/* Body */}
-        <div className="p-5 sm:p-6 overflow-y-auto space-y-4 text-xs">
+        {/* Modal Body */}
+        <div className="p-5 overflow-y-auto space-y-4 text-xs">
+          {/* Missing Fields Summary */}
+          <div className="p-3 rounded-xl bg-[#060b08] border border-[#1c3327]">
+            <div className="text-[11px] font-bold text-[#6e8a7b] uppercase mb-1.5">
+              Identified Information Gaps:
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {missingPoints.map((pt, i) => (
+                <span
+                  key={i}
+                  className="px-2 py-0.5 rounded bg-[#0f1a14] text-[#00df81] border border-[#1c3327] text-[10px]"
+                >
+                  • {pt.slice(0, 48)}...
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Editable Draft */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-slate-300 font-semibold block">
-                Draft Enquiry (Editable before sending):
+              <label className="text-[11px] font-semibold text-[#f0fdf4]">
+                Editable Enquiry Draft (WhatsApp / Email):
               </label>
               <button
                 onClick={handleCopy}
-                className="flex items-center gap-1 text-[11px] text-amber-400 hover:text-amber-300 bg-amber-950/50 border border-amber-900/60 px-2 py-0.5 rounded transition"
+                className="text-[#00df81] hover:text-[#00ff87] flex items-center gap-1 font-bold"
               >
                 {copied ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                 <span>{copied ? 'Copied to Clipboard!' : 'Copy Text'}</span>
@@ -143,70 +166,68 @@ Contact: via MelaScope NCR`;
               rows={8}
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-slate-100 font-sans focus:outline-none focus:ring-1 focus:ring-amber-500"
+              className="w-full bg-[#060b08] border border-[#1c3327] rounded-xl p-3 text-[#f0fdf4] font-mono text-[11px] focus:outline-none focus:ring-1 focus:ring-[#00df81] focus:border-[#00df81]"
             />
           </div>
 
-          {/* Quick Dispatch Channels */}
-          <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-slate-800">
-            {whatsappUrl && (
+          {/* Direct Send Action Buttons */}
+          <div className="flex flex-wrap gap-2 pt-1">
+            {whatsappUrl ? (
               <a
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg text-xs shadow transition"
+                className="flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow transition"
               >
-                <Phone className="w-3.5 h-3.5" />
-                <span>Open in WhatsApp Web</span>
+                <Phone className="w-4 h-4" />
+                <span>Open in WhatsApp (+{cleanPhone})</span>
               </a>
+            ) : (
+              <span className="text-[11px] text-[#6e8a7b] py-2 px-3 bg-[#060b08] rounded-lg border border-[#1c3327]">
+                No organiser phone number on record
+              </span>
             )}
 
             {mailtoUrl && (
               <a
                 href={mailtoUrl}
-                className="flex items-center gap-1.5 px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg text-xs font-medium transition"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 px-4 py-2 bg-[#0f1a14] hover:bg-[#15241c] text-[#f0fdf4] border border-[#1c3327] font-medium rounded-xl transition"
               >
-                <Mail className="w-3.5 h-3.5 text-blue-400" />
-                <span>Open Email Client</span>
+                <Mail className="w-4 h-4 text-[#00df81]" />
+                <span>Send via Email</span>
               </a>
             )}
-
-            <button
-              onClick={handleCopy}
-              className="flex items-center gap-1.5 px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg text-xs font-medium transition"
-            >
-              <Copy className="w-3.5 h-3.5" />
-              <span>Copy Message</span>
-            </button>
           </div>
 
-          {/* Ingest Organiser Reply Section */}
-          <div className="pt-3 border-t border-slate-800 space-y-2">
-            <label className="text-slate-300 font-semibold block">
-              Received a reply from the organiser? Paste it here to update evidence:
-            </label>
+          {/* Paste Organiser Reply Parser */}
+          <div className="pt-3 border-t border-[#1c3327] space-y-2">
+            <div className="flex items-center justify-between">
+              <label className="text-[11px] font-semibold text-[#f0fdf4] flex items-center gap-1">
+                <Sparkles className="w-3.5 h-3.5 text-[#00df81]" />
+                <span>Log Organiser Reply</span>
+              </label>
+              {replyParsed && (
+                <span className="text-[#00df81] text-[10px] font-bold">✓ Saved to notes!</span>
+              )}
+            </div>
+
             <textarea
               rows={3}
-              placeholder="Paste organiser's WhatsApp reply, quotation email, or stall details here..."
+              placeholder="Paste organiser's reply message here (quotes, prices, dimensions)..."
               value={replyText}
               onChange={(e) => setReplyText(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-amber-500"
+              className="w-full bg-[#060b08] border border-[#1c3327] rounded-xl p-2.5 text-xs text-[#f0fdf4] focus:outline-none focus:border-[#00df81]"
             />
-            {replyParsed && (
-              <div className="text-[11px] text-emerald-400 flex items-center gap-1 font-medium">
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>Reply attached as new factual source evidence!</span>
-              </div>
-            )}
-            <div className="flex justify-end">
-              <button
-                onClick={handleParseReply}
-                disabled={!replyText.trim()}
-                className="px-3.5 py-1.5 bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-slate-950 font-bold rounded-lg text-xs shadow transition"
-              >
-                Attach & Ingest Reply Evidence
-              </button>
-            </div>
+
+            <button
+              onClick={handleParseReply}
+              disabled={!replyText.trim()}
+              className="px-3.5 py-1.5 bg-[#0f1a14] hover:bg-[#15241c] disabled:opacity-50 text-[#00df81] border border-[#00df81]/40 rounded-lg text-xs font-semibold transition"
+            >
+              Attach Reply to Opportunity Notes
+            </button>
           </div>
         </div>
       </div>

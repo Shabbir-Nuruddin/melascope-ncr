@@ -228,16 +228,19 @@ export interface ResearchRun {
 export interface EventFilters {
   searchQuery?: string;
   locality?: string;
+  city?: string;
   eventType?: string;
   venueContext?: string;
   dateHorizonDays?: number;
   startDate?: string;
   endDate?: string;
   minScore?: number;
+  minFitScore?: number;
   maxStallFee?: number;
   verifiedOnly?: boolean;
   bookingLinkOnly?: boolean;
+  hasBookingLink?: boolean;
   hasFloorPlanOnly?: boolean;
   userStatus?: string;
-  sortBy?: 'fit_score' | 'date' | 'fee_asc' | 'fee_desc' | 'confidence';
+  sortBy?: 'fit_score' | 'date' | 'start_at' | 'stall_fee' | 'fee_asc' | 'fee_desc' | 'confidence';
 }

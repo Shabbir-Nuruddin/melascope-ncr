@@ -103,82 +103,92 @@ export default function EventMap({
   function initGoogleMap() {
     if (!containerRef.current || !window.google?.maps) return;
 
-    try {
-      const map = new window.google.maps.Map(containerRef.current, {
-        center: DELHI_NCR_CENTER,
-        zoom: DEFAULT_ZOOM,
-        mapTypeControl: false,
-        streetViewControl: false,
-        fullscreenControl: false,
-        styles: [
-          { elementType: 'geometry', stylers: [{ color: '#1e293b' }] },
-          { elementType: 'labels.text.stroke', stylers: [{ color: '#0f172a' }] },
-          { elementType: 'labels.text.fill', stylers: [{ color: '#94a3b8' }] },
-          {
-            featureType: 'administrative.locality',
-            elementType: 'labels.text.fill',
-            stylers: [{ color: '#f8fafc' }],
-          },
-          {
-            featureType: 'poi',
-            elementType: 'labels.text.fill',
-            stylers: [{ color: '#64748b' }],
-          },
-          {
-            featureType: 'road',
-            elementType: 'geometry',
-            stylers: [{ color: '#334155' }],
-          },
-          {
-            featureType: 'road.highway',
-            elementType: 'geometry',
-            stylers: [{ color: '#475569' }],
-          },
-          {
-            featureType: 'water',
-            elementType: 'geometry',
-            stylers: [{ color: '#0284c7' }],
-          },
-        ],
-      });
+    // TETR Dark Obsidian Style for Google Maps
+    const darkMapStyle = [
+      { elementType: 'geometry', stylers: [{ color: '#060b08' }] },
+      { elementType: 'labels.text.stroke', stylers: [{ color: '#060b08' }] },
+      { elementType: 'labels.text.fill', stylers: [{ color: '#6e8a7b' }] },
+      {
+        featureType: 'administrative.locality',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#00df81' }],
+      },
+      {
+        featureType: 'poi',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#6e8a7b' }],
+      },
+      {
+        featureType: 'poi.park',
+        elementType: 'geometry',
+        stylers: [{ color: '#0a160f' }],
+      },
+      {
+        featureType: 'road',
+        elementType: 'geometry',
+        stylers: [{ color: '#121e17' }],
+      },
+      {
+        featureType: 'road',
+        elementType: 'geometry.stroke',
+        stylers: [{ color: '#1c3327' }],
+      },
+      {
+        featureType: 'road.highway',
+        elementType: 'geometry',
+        stylers: [{ color: '#1c3327' }],
+      },
+      {
+        featureType: 'water',
+        elementType: 'geometry',
+        stylers: [{ color: '#030805' }],
+      },
+    ];
 
-      mapInstanceRef.current = map;
-      setMapMode('google');
-      updateGoogleMarkers();
-    } catch (e) {
-      console.warn('Error initializing Google Maps. Falling back to Leaflet:', e);
-      loadLeafletMap();
-    }
+    const map = new window.google.maps.Map(containerRef.current, {
+      center: DELHI_NCR_CENTER,
+      zoom: DEFAULT_ZOOM,
+      styles: darkMapStyle,
+      disableDefaultUI: false,
+      zoomControl: true,
+      mapTypeControl: false,
+      streetViewControl: false,
+      fullscreenControl: false,
+    });
+
+    mapInstanceRef.current = map;
+    setMapMode('google');
+    updateGoogleMarkers();
   }
 
   function updateGoogleMarkers() {
+    const map = mapInstanceRef.current;
+    if (!map || !window.google?.maps) return;
+
     // Clear old markers
     markersRef.current.forEach((m) => m.setMap(null));
     markersRef.current = [];
 
-    const map = mapInstanceRef.current;
-    if (!map || !window.google?.maps) return;
-
     events.forEach((ev) => {
       const isSelected = selectedEvent?.id === ev.id;
-      const pinColor = ev.verification_status === 'unverified'
-        ? '#f97316'
-        : ev.fit_score >= 80
-        ? '#10b981'
-        : ev.fit_score >= 65
+      const markerColor = ev.verification_status === 'unverified'
         ? '#f59e0b'
-        : '#64748b';
+        : ev.fit_score >= 80
+        ? '#00df81'
+        : ev.fit_score >= 65
+        ? '#a3e635'
+        : '#6e8a7b';
 
       const marker = new window.google.maps.Marker({
         position: { lat: ev.latitude, lng: ev.longitude },
-        map,
+        map: map,
         title: ev.title,
         icon: {
           path: window.google.maps.SymbolPath.CIRCLE,
-          scale: isSelected ? 12 : 9,
-          fillColor: pinColor,
+          scale: isSelected ? 11 : 8,
+          fillColor: markerColor,
           fillOpacity: 1,
-          strokeColor: isSelected ? '#ffffff' : '#0f172a',
+          strokeColor: isSelected ? '#ffffff' : '#060b08',
           strokeWeight: isSelected ? 3 : 2,
         },
       });
@@ -191,7 +201,7 @@ export default function EventMap({
     });
   }
 
-  // 2. Leaflet Fallback Loader
+  // 2. Leaflet Fallback Loader (CartoDB Dark Matter for TETR Obsidian look)
   async function loadLeafletMap() {
     if (!containerRef.current) return;
 
@@ -211,8 +221,8 @@ export default function EventMap({
         zoomControl: false,
       });
 
-      // CartoDB Dark Matter tiles for modern dark aesthetic
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      // CartoDB Dark Matter tiles for modern TETR dark aesthetic
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
         subdomains: 'abcd',
         maxZoom: 19,
@@ -245,21 +255,21 @@ export default function EventMap({
       const isSelected = selectedEvent?.id === ev.id;
       const isVerified = ev.verification_status === 'verified';
       const bgColor = ev.verification_status === 'unverified'
-        ? 'bg-amber-600 border-amber-300'
+        ? 'bg-amber-500 text-black border-amber-300'
         : ev.fit_score >= 80
-        ? 'bg-emerald-600 border-emerald-300'
+        ? 'bg-[#00df81] text-[#060b08] border-[#00ff87]'
         : ev.fit_score >= 65
-        ? 'bg-amber-500 border-amber-200'
-        : 'bg-slate-600 border-slate-300';
+        ? 'bg-[#a3e635] text-[#060b08] border-[#bef264]'
+        : 'bg-[#15241c] text-[#f0fdf4] border-[#1c3327]';
 
       const customIcon = L.divIcon({
         className: 'custom-mela-pin',
         html: `
           <div class="relative group cursor-pointer flex items-center justify-center transform transition-transform ${isSelected ? 'scale-125 z-50' : 'hover:scale-110'}">
-            <div class="w-8 h-8 rounded-full border-2 ${bgColor} text-white flex items-center justify-center shadow-lg font-bold text-xs">
+            <div class="w-8 h-8 rounded-full border-2 ${bgColor} flex items-center justify-center shadow-lg font-black text-xs">
               ${ev.fit_score}
             </div>
-            ${isSelected ? '<div class="absolute -top-1 -right-1 w-3 h-3 bg-white rounded-full animate-ping"></div>' : ''}
+            ${isSelected ? '<div class="absolute -top-1 -right-1 w-3 h-3 bg-[#00df81] rounded-full animate-ping"></div>' : ''}
           </div>
         `,
         iconSize: [32, 32],
@@ -269,25 +279,25 @@ export default function EventMap({
 
       const marker = L.marker([ev.latitude, ev.longitude], { icon: customIcon }).addTo(map);
 
-      // Popup content
+      // Popup content with TETR styling
       const popupHtml = `
-        <div class="p-1 max-w-[260px] text-slate-100 font-sans">
+        <div class="p-1 max-w-[260px] text-[#f0fdf4] font-sans">
           <div class="flex items-center gap-1.5 mb-1">
-            <span class="text-[10px] font-semibold px-1.5 py-0.5 rounded ${
-              ev.verification_status === 'verified' ? 'bg-emerald-900/80 text-emerald-300' : 'bg-amber-900/80 text-amber-300'
+            <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded ${
+              ev.verification_status === 'verified' ? 'bg-[#00df81]/20 text-[#00df81] border border-[#00df81]/30' : 'bg-amber-950/80 text-amber-300'
             }">
               ${ev.verification_status.toUpperCase()}
             </span>
-            <span class="text-[10px] text-slate-300">${ev.locality}, ${ev.city}</span>
+            <span class="text-[10px] text-[#6e8a7b]">${ev.locality}, ${ev.city}</span>
           </div>
           <h4 class="font-bold text-sm leading-tight text-white mb-1">${ev.title}</h4>
-          <p class="text-xs text-amber-400 font-medium mb-1">
+          <p class="text-xs text-[#00df81] font-semibold mb-1">
             ${ev.stall_fee_max ? `₹${ev.stall_fee_min?.toLocaleString('en-IN') || 0} - ₹${ev.stall_fee_max?.toLocaleString('en-IN')}` : 'Stall fee unannounced'}
           </p>
-          <div class="flex items-center justify-between pt-1 border-t border-slate-700/60 mt-1">
-            <span class="text-xs font-semibold text-emerald-400">Score: ${ev.fit_score}/100</span>
-            <button id="btn-popup-${ev.id}" class="text-[11px] bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-2 py-0.5 rounded transition">
-              View Details
+          <div class="flex items-center justify-between pt-1 border-t border-[#1c3327] mt-1">
+            <span class="text-xs font-black text-[#00df81]">Fit: ${ev.fit_score}/100</span>
+            <button id="btn-popup-${ev.id}" class="text-[11px] bg-[#00df81] hover:bg-[#00ff87] text-[#060b08] font-black px-2.5 py-0.5 rounded transition">
+              View Intel
             </button>
           </div>
         </div>
@@ -330,65 +340,44 @@ export default function EventMap({
   }
 
   return (
-    <div className="relative w-full h-full min-h-[420px] rounded-xl overflow-hidden border border-slate-800 bg-slate-900 shadow-inner">
-      {/* Map DOM Container */}
-      <div ref={containerRef} className="w-full h-full" />
+    <div className="relative w-full h-full min-h-[460px] bg-[#060b08] rounded-xl overflow-hidden border border-[#1c3327] shadow-xl">
+      {/* Map DOM Element */}
+      <div ref={containerRef} className="w-full h-full min-h-[460px]" />
 
-      {/* Mode / API status indicator pill */}
-      <div className="absolute top-3 left-3 z-[400] flex items-center gap-2">
-        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900/90 backdrop-blur border border-slate-700/80 text-xs shadow-md">
-          <span
-            className={`w-2 h-2 rounded-full ${
-              mapMode === 'google' ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'
-            }`}
-          />
-          <span className="font-medium text-slate-200">
-            {mapMode === 'google'
-              ? 'Google Maps API'
-              : mapMode === 'leaflet'
-              ? 'OpenStreetMap / Leaflet (Fallback)'
-              : 'Initializing Map...'}
+      {/* Map Engine Badge (Top Left) */}
+      <div className="absolute top-3 left-3 z-[400] flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#0c1510]/90 backdrop-blur-md border border-[#1c3327] text-[11px] text-[#6e8a7b] shadow">
+        <Compass className="w-3.5 h-3.5 text-[#00df81]" />
+        <span>Engine: <strong className="text-white capitalize">{mapMode}</strong></span>
+        {!hasGoogleKey && (
+          <span className="text-[10px] text-[#00df81] font-mono ml-1 px-1 rounded bg-[#00df81]/15">
+            CartoDB Dark
           </span>
-          {!hasGoogleKey && (
-            <span className="text-[10px] text-slate-400 hidden sm:inline ml-1 border-l border-slate-700 pl-1.5">
-              Set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY for Google tiles
-            </span>
-          )}
+        )}
+      </div>
+
+      {/* Recenter Control Button (Bottom Right) */}
+      <button
+        onClick={handleRecenter}
+        className="absolute bottom-4 right-4 z-[400] p-2 rounded-xl bg-[#0c1510] hover:bg-[#121e17] text-[#6e8a7b] hover:text-[#00df81] border border-[#1c3327] hover:border-[#00df81]/50 shadow-lg transition"
+        title="Recenter Map to Delhi NCR"
+      >
+        <Navigation className="w-4 h-4 text-[#00df81]" />
+      </button>
+
+      {/* Map Legend (Bottom Left) */}
+      <div className="absolute bottom-4 left-4 z-[400] hidden sm:flex items-center gap-3 px-3 py-1.5 rounded-xl bg-[#0c1510]/95 backdrop-blur-md border border-[#1c3327] text-[10px] text-[#6e8a7b] shadow-lg">
+        <span className="font-bold text-[#f0fdf4]">Fit Score:</span>
+        <div className="flex items-center gap-1">
+          <div className="w-2.5 h-2.5 rounded-full bg-[#00df81]" />
+          <span>80+ (High)</span>
         </div>
-      </div>
-
-      {/* Recenter & Controls Floating Toolbar */}
-      <div className="absolute bottom-4 right-4 z-[400] flex flex-col gap-2">
-        <button
-          onClick={handleRecenter}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-900/95 hover:bg-slate-800 text-slate-200 hover:text-white border border-slate-700 rounded-lg text-xs font-medium shadow-lg backdrop-blur transition active:scale-95"
-          title="Recenter Map to Delhi NCR"
-        >
-          <Compass className="w-3.5 h-3.5 text-amber-400" />
-          <span>Center NCR</span>
-        </button>
-      </div>
-
-      {/* Map Legend */}
-      <div className="absolute bottom-4 left-4 z-[400] bg-slate-900/90 backdrop-blur border border-slate-800/80 rounded-lg p-2 text-[11px] shadow-lg hidden md:block">
-        <div className="text-[10px] uppercase font-bold text-slate-400 mb-1 tracking-wider">Opportunity Fit Score</div>
-        <div className="flex items-center gap-3 text-slate-300">
-          <div className="flex items-center gap-1">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span>
-            <span>80+ High</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span>
-            <span>65-79 Moderate</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <span className="w-2.5 h-2.5 rounded-full bg-slate-500 inline-block"></span>
-            <span>&lt;65 Low</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-700 inline-block border border-amber-300"></span>
-            <span>Unverified Lead</span>
-          </div>
+        <div className="flex items-center gap-1">
+          <div className="w-2.5 h-2.5 rounded-full bg-[#a3e635]" />
+          <span>65–79 (Mid)</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+          <span>Unverified Lead</span>
         </div>
       </div>
     </div>

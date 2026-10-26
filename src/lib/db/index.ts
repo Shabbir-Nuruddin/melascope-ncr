@@ -5,8 +5,15 @@ import { DEFAULT_PRODUCT_PROFILE, DEFAULT_SCORE_WEIGHTS, calculateFitScore } fro
 import { getInitialSeedEvents } from './seed-data';
 import { DEFAULT_SOURCE_CONNECTORS } from '../connectors';
 
-const DATA_DIR = path.join(process.cwd(), 'data');
+const BUNDLED_DB_FILE = path.join(process.cwd(), 'data', 'melascope_db.json');
+// Vercel's filesystem is read-only outside /tmp, so keep a writable copy there (not persistent across cold starts).
+const DATA_DIR = process.env.VERCEL ? '/tmp/melascope' : path.join(process.cwd(), 'data');
 const DB_FILE = path.join(DATA_DIR, 'melascope_db.json');
+
+if (process.env.VERCEL && !fs.existsSync(DB_FILE) && fs.existsSync(BUNDLED_DB_FILE)) {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+  fs.copyFileSync(BUNDLED_DB_FILE, DB_FILE);
+}
 
 interface LocalDatabase {
   user_profile: UserProfile;
@@ -127,8 +134,9 @@ export async function getEvents(filters: EventFilters = {}): Promise<MelaEvent[]
   }
 
   // 2. Locality / City Filter
-  if (filters.locality && filters.locality !== 'all') {
-    const loc = filters.locality.toLowerCase();
+  const targetLoc = filters.city || filters.locality;
+  if (targetLoc && targetLoc !== 'all') {
+    const loc = targetLoc.toLowerCase();
     list = list.filter((e) => {
       return (
         e.city.toLowerCase().includes(loc) ||
@@ -167,8 +175,9 @@ export async function getEvents(filters: EventFilters = {}): Promise<MelaEvent[]
   }
 
   // 6. Min Fit Score
-  if (typeof filters.minScore === 'number' && filters.minScore > 0) {
-    list = list.filter((e) => e.fit_score >= (filters.minScore || 0));
+  const minScore = filters.minFitScore ?? filters.minScore;
+  if (typeof minScore === 'number' && minScore > 0) {
+    list = list.filter((e) => e.fit_score >= minScore);
   }
 
   // 7. Max Stall Fee
@@ -186,7 +195,7 @@ export async function getEvents(filters: EventFilters = {}): Promise<MelaEvent[]
   }
 
   // 9. Booking Link Available Only
-  if (filters.bookingLinkOnly) {
+  if (filters.hasBookingLink || filters.bookingLinkOnly) {
     list = list.filter(
       (e) =>
         e.vendor_booking_url &&
