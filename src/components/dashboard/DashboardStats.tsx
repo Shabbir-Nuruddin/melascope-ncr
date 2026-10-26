@@ -8,10 +8,8 @@ import {
   Layers,
   Clock,
   HelpCircle,
-  AlertCircle,
   ArrowUpRight,
   TrendingUp,
-  Search,
 } from 'lucide-react';
 
 interface DashboardStatsProps {
@@ -47,30 +45,30 @@ export default function DashboardStats({
   }).length;
 
   return (
-    <div className="bg-[#060b08]/80 border-b border-[#1c3327] px-4 py-3 backdrop-blur-sm">
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+    <div className="bg-white border-b border-[#e2ece6] px-4 py-3.5 shadow-sm">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 max-w-7xl mx-auto">
         {/* Widget 1: Verified Upcoming */}
-        <div className="bg-[#0c1510] border border-[#1c3327] rounded-xl p-3 flex flex-col justify-between hover:border-[#00df81]/40 transition">
-          <div className="flex items-center justify-between text-[#6e8a7b] text-[11px] mb-1">
-            <span className="font-medium">Verified Events</span>
-            <ShieldCheck className="w-3.5 h-3.5 text-[#00df81]" />
+        <div className="bg-[#f8faf8] border border-[#e2ece6] rounded-xl p-3 flex flex-col justify-between hover:border-[#a7f3d0] transition shadow-xs">
+          <div className="flex items-center justify-between text-[#52796f] text-[11px] mb-1">
+            <span className="font-semibold">Verified Events</span>
+            <ShieldCheck className="w-3.5 h-3.5 text-[#059669]" />
           </div>
-          <div className="text-xl font-black text-white leading-none">
+          <div className="text-xl font-black text-[#0f291e] leading-none">
             {verifiedCount}
-            <span className="text-xs font-normal text-[#6e8a7b] ml-1">/ {events.length}</span>
+            <span className="text-xs font-normal text-[#52796f] ml-1">/ {events.length}</span>
           </div>
         </div>
 
         {/* Widget 2: Deadlines Closing Soon */}
         <div
           onClick={onFilterDeadlines}
-          className="bg-[#0c1510] hover:bg-[#121e17] border border-[#1c3327] hover:border-[#a3e635]/60 rounded-xl p-3 flex flex-col justify-between cursor-pointer transition group"
+          className="bg-[#fffbeb] hover:bg-[#fef3c7] border border-[#fde68a] rounded-xl p-3 flex flex-col justify-between cursor-pointer transition group shadow-xs"
         >
-          <div className="flex items-center justify-between text-[#6e8a7b] text-[11px] mb-1">
-            <span className="font-medium group-hover:text-[#a3e635] transition">Deadlines &lt; 7 Days</span>
-            <Clock className="w-3.5 h-3.5 text-[#a3e635]" />
+          <div className="flex items-center justify-between text-[#92400e] text-[11px] mb-1">
+            <span className="font-semibold group-hover:text-[#b45309] transition">Deadlines &lt; 7 Days</span>
+            <Clock className="w-3.5 h-3.5 text-[#d97706]" />
           </div>
-          <div className="text-xl font-black text-[#a3e635] leading-none">
+          <div className="text-xl font-black text-[#b45309] leading-none">
             {deadlinesClosingCount}
           </div>
         </div>
@@ -78,13 +76,13 @@ export default function DashboardStats({
         {/* Widget 3: Floor Plans Available */}
         <div
           onClick={onFilterFloorPlans}
-          className="bg-[#0c1510] hover:bg-[#121e17] border border-[#1c3327] hover:border-[#00df81]/60 rounded-xl p-3 flex flex-col justify-between cursor-pointer transition group"
+          className="bg-[#ecfdf5] hover:bg-[#d1fae5] border border-[#a7f3d0] rounded-xl p-3 flex flex-col justify-between cursor-pointer transition group shadow-xs"
         >
-          <div className="flex items-center justify-between text-[#6e8a7b] text-[11px] mb-1">
-            <span className="font-medium group-hover:text-[#00df81] transition">Floor Plans Ready</span>
-            <Layers className="w-3.5 h-3.5 text-[#00df81]" />
+          <div className="flex items-center justify-between text-[#065f46] text-[11px] mb-1">
+            <span className="font-semibold group-hover:text-[#047857] transition">Floor Plans Ready</span>
+            <Layers className="w-3.5 h-3.5 text-[#059669]" />
           </div>
-          <div className="text-xl font-black text-[#00df81] leading-none">
+          <div className="text-xl font-black text-[#059669] leading-none">
             {withFloorPlansCount}
           </div>
         </div>
@@ -92,26 +90,26 @@ export default function DashboardStats({
         {/* Widget 4: Missing Stall Fees */}
         <div
           onClick={onFilterMissingPrices}
-          className="bg-[#0c1510] hover:bg-[#121e17] border border-[#1c3327] hover:border-[#6e8a7b] rounded-xl p-3 flex flex-col justify-between cursor-pointer transition"
+          className="bg-[#f8faf8] hover:bg-[#f0fdf4] border border-[#e2ece6] hover:border-[#a7f3d0] rounded-xl p-3 flex flex-col justify-between cursor-pointer transition shadow-xs"
         >
-          <div className="flex items-center justify-between text-[#6e8a7b] text-[11px] mb-1">
-            <span className="font-medium">Fee Unannounced</span>
-            <HelpCircle className="w-3.5 h-3.5 text-[#6e8a7b]" />
+          <div className="flex items-center justify-between text-[#52796f] text-[11px] mb-1">
+            <span className="font-semibold">Fee Unannounced</span>
+            <HelpCircle className="w-3.5 h-3.5 text-[#52796f]" />
           </div>
-          <div className="text-xl font-black text-[#6e8a7b] leading-none">
+          <div className="text-xl font-black text-[#52796f] leading-none">
             {missingPricesCount}
           </div>
         </div>
 
         {/* Widget 5: Coverage Horizon */}
-        <div className="bg-[#0c1510] border border-[#1c3327] rounded-xl p-3 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-[#6e8a7b] text-[11px] mb-1">
-            <span className="font-medium">Discovery Window</span>
-            <TrendingUp className="w-3.5 h-3.5 text-[#00df81]" />
+        <div className="bg-[#f8faf8] border border-[#e2ece6] rounded-xl p-3 flex flex-col justify-between shadow-xs">
+          <div className="flex items-center justify-between text-[#52796f] text-[11px] mb-1">
+            <span className="font-semibold">Season Horizon</span>
+            <TrendingUp className="w-3.5 h-3.5 text-[#059669]" />
           </div>
-          <div className="text-sm font-bold text-white leading-none">
+          <div className="text-sm font-bold text-[#0f291e] leading-none">
             Nov – Dec 23
-            <span className="block text-[10px] text-[#6e8a7b] font-normal mt-0.5">Peak NCR Season</span>
+            <span className="block text-[10px] text-[#52796f] font-normal mt-0.5">Peak NCR Season</span>
           </div>
         </div>
 
@@ -119,17 +117,17 @@ export default function DashboardStats({
         <button
           onClick={onScoutNow}
           disabled={isScouting}
-          className="bg-gradient-to-br from-[#0c1510] to-[#15241c] hover:from-[#15241c] hover:to-[#1c3327] border border-[#00df81]/40 hover:border-[#00df81] rounded-xl p-3 flex flex-col justify-between transition group text-left cursor-pointer shadow-lg shadow-[#00df81]/5"
+          className="bg-gradient-to-br from-[#ecfdf5] to-[#d1fae5] hover:from-[#d1fae5] hover:to-[#a7f3d0] border border-[#a7f3d0] rounded-xl p-3 flex flex-col justify-between transition group text-left cursor-pointer shadow-xs"
         >
-          <div className="flex items-center justify-between text-[11px] text-[#00df81]">
-            <span className="font-bold flex items-center gap-1">
-              <Sparkles className="w-3 h-3 text-[#00df81]" />
+          <div className="flex items-center justify-between text-[11px] text-[#059669]">
+            <span className="font-black flex items-center gap-1">
+              <Sparkles className="w-3 h-3 text-[#059669]" />
               TETR Scout
             </span>
-            <ArrowUpRight className="w-3.5 h-3.5 text-[#00df81] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition" />
+            <ArrowUpRight className="w-3.5 h-3.5 text-[#059669] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition" />
           </div>
-          <div className="text-xs font-bold text-white leading-tight">
-            {isScouting ? 'Scouting Live...' : 'Run Auto-Discovery'}
+          <div className="text-xs font-bold text-[#0f291e] leading-tight">
+            {isScouting ? 'Scouting Live...' : 'Auto-Scout Melas'}
           </div>
         </button>
       </div>

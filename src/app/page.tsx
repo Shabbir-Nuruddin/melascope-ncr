@@ -282,7 +282,7 @@ export default function HomePage() {
   ).length;
 
   return (
-    <div className="min-h-screen bg-[#060b08] text-[#f0fdf4] flex flex-col font-sans selection:bg-[#00df81]/30 selection:text-[#00ff87]">
+    <div className="min-h-screen bg-[#f4f8f5] text-[#0f291e] flex flex-col font-sans selection:bg-[#059669]/20 selection:text-[#047857]">
       {/* 1. Header Navigation */}
       <Navbar
         activeView={activeView}
@@ -338,22 +338,22 @@ export default function HomePage() {
           {/* 4. Full-Width Intuitive Content Workspace (Map Removed) */}
           <div className="flex-1 p-4 sm:p-6 max-w-7xl mx-auto w-full">
             {isLoading ? (
-              <div className="flex flex-col items-center justify-center py-28 text-[#6e8a7b] text-sm">
-                <Loader2 className="w-8 h-8 animate-spin text-[#00df81] mb-3" />
+              <div className="flex flex-col items-center justify-center py-28 text-[#627d6d] text-sm">
+                <Loader2 className="w-8 h-8 animate-spin text-[#059669] mb-3" />
                 <span>Loading opportunities across Delhi NCR...</span>
               </div>
             ) : events.length === 0 ? (
-              <div className="text-center py-24 text-[#6e8a7b] space-y-3 bg-[#0c1510] border border-[#1c3327] rounded-2xl p-8 max-w-md mx-auto">
-                <Inbox className="w-12 h-12 mx-auto text-[#1c3327]" />
+              <div className="text-center py-24 text-[#627d6d] space-y-3 bg-white border border-[#e2ece6] rounded-2xl p-8 max-w-md mx-auto shadow-sm">
+                <Inbox className="w-12 h-12 mx-auto text-[#a3b8ad]" />
                 <div>
-                  <h4 className="font-bold text-[#f0fdf4] text-base">No matching events found</h4>
-                  <p className="text-xs text-[#6e8a7b] mt-1">
+                  <h4 className="font-bold text-[#0f291e] text-base">No matching events found</h4>
+                  <p className="text-xs text-[#627d6d] mt-1">
                     Try clearing your filters or launching an AI Scout run to discover new listings across Delhi NCR.
                   </p>
                 </div>
                 <button
                   onClick={handleResetFilters}
-                  className="px-4 py-2 bg-[#0f1a14] hover:bg-[#15241c] text-[#f0fdf4] border border-[#1c3327] font-semibold text-xs rounded-xl transition"
+                  className="px-4 py-2 bg-[#f0f7f3] hover:bg-[#e2ece6] text-[#0f291e] border border-[#d8e5dd] font-semibold text-xs rounded-xl transition"
                 >
                   Reset Filters
                 </button>

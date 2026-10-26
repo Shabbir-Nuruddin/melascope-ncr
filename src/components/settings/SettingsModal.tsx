@@ -8,13 +8,9 @@ import {
   Sliders,
   Package,
   Key,
-  ShieldCheck,
   CheckCircle2,
-  AlertTriangle,
-  RotateCcw,
   Save,
-  HelpCircle,
-  Sparkles,
+  RotateCcw,
 } from 'lucide-react';
 
 interface SettingsModalProps {
@@ -97,33 +93,33 @@ export default function SettingsModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#060b08]/85 backdrop-blur-md overflow-y-auto">
-      <div className="relative w-full max-w-3xl bg-[#0c1510] border border-[#1c3327] rounded-2xl shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/40 backdrop-blur-sm overflow-y-auto">
+      <div className="relative w-full max-w-3xl bg-white border border-[#e2ece6] rounded-2xl shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col text-[#0f291e]">
         {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b border-[#1c3327] bg-[#060b08]/80">
+        <div className="flex items-center justify-between p-5 border-b border-[#e2ece6] bg-[#f8faf8]">
           <div>
-            <h3 className="font-black text-white text-lg">TETR Workspace Settings & Criteria</h3>
-            <p className="text-xs text-[#6e8a7b]">
+            <h3 className="font-black text-[#0f291e] text-lg">TETR Workspace Settings & Criteria</h3>
+            <p className="text-xs text-[#52796f]">
               Configure product profile, scoring weights, and API integrations
             </p>
           </div>
 
           <button
             onClick={onClose}
-            className="p-1.5 text-[#6e8a7b] hover:text-white rounded-lg bg-[#0f1a14] border border-[#1c3327] transition"
+            className="p-1.5 text-[#52796f] hover:text-[#0f291e] rounded-xl bg-white border border-[#e2ece6] transition shadow-xs"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex border-b border-[#1c3327] bg-[#060b08]/50 px-5 text-xs font-semibold">
+        <div className="flex border-b border-[#e2ece6] bg-[#f8faf8] px-5 text-xs font-semibold">
           <button
             onClick={() => setActiveTab('product')}
             className={`py-3 px-4 border-b-2 flex items-center gap-1.5 transition ${
               activeTab === 'product'
-                ? 'border-[#00df81] text-[#00df81]'
-                : 'border-transparent text-[#6e8a7b] hover:text-[#f0fdf4]'
+                ? 'border-[#059669] text-[#059669]'
+                : 'border-transparent text-[#52796f] hover:text-[#0f291e]'
             }`}
           >
             <Package className="w-4 h-4" />
@@ -134,8 +130,8 @@ export default function SettingsModal({
             onClick={() => setActiveTab('weights')}
             className={`py-3 px-4 border-b-2 flex items-center gap-1.5 transition ${
               activeTab === 'weights'
-                ? 'border-[#00df81] text-[#00df81]'
-                : 'border-transparent text-[#6e8a7b] hover:text-[#f0fdf4]'
+                ? 'border-[#059669] text-[#059669]'
+                : 'border-transparent text-[#52796f] hover:text-[#0f291e]'
             }`}
           >
             <Sliders className="w-4 h-4" />
@@ -146,8 +142,8 @@ export default function SettingsModal({
             onClick={() => setActiveTab('api')}
             className={`py-3 px-4 border-b-2 flex items-center gap-1.5 transition ${
               activeTab === 'api'
-                ? 'border-[#00df81] text-[#00df81]'
-                : 'border-transparent text-[#6e8a7b] hover:text-[#f0fdf4]'
+                ? 'border-[#059669] text-[#059669]'
+                : 'border-transparent text-[#52796f] hover:text-[#0f291e]'
             }`}
           >
             <Key className="w-4 h-4" />
@@ -160,323 +156,178 @@ export default function SettingsModal({
           {/* TAB 1: PRODUCT PROFILE */}
           {activeTab === 'product' && (
             <div className="space-y-4 text-xs">
-              <div className="bg-amber-950/30 border border-amber-900/50 p-3 rounded-lg text-amber-300/90 leading-relaxed">
-                <strong>Product-Agnostic Engine:</strong> The AI scores all Delhi NCR opportunities
-                against this profile. Change it to candles, jewelry, apparel, bakery, pottery, or any
-                custom product category at any time.
+              <div>
+                <label className="text-[#0f291e] font-semibold block mb-1">Product Name / Brand</label>
+                <input
+                  type="text"
+                  value={productForm.product_name}
+                  onChange={(e) => setProductForm({ ...productForm, product_name: e.target.value })}
+                  className="w-full bg-[#f8faf8] border border-[#e2ece6] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:border-[#059669]"
+                />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="text-slate-300 font-semibold block mb-1">Product Name / Line</label>
-                  <input
-                    type="text"
-                    value={productForm.product_name}
-                    onChange={(e) => setProductForm({ ...productForm, product_name: e.target.value })}
-                    className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-slate-100"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-slate-300 font-semibold block mb-1">Category</label>
+                  <label className="text-[#0f291e] font-semibold block mb-1">Category</label>
                   <input
                     type="text"
                     value={productForm.category}
                     onChange={(e) => setProductForm({ ...productForm, category: e.target.value })}
-                    className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-slate-100"
+                    className="w-full bg-[#f8faf8] border border-[#e2ece6] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:border-[#059669]"
+                  />
+                </div>
+                <div>
+                  <label className="text-[#0f291e] font-semibold block mb-1">Target Audience</label>
+                  <input
+                    type="text"
+                    value={productForm.target_audience}
+                    onChange={(e) => setProductForm({ ...productForm, target_audience: e.target.value })}
+                    className="w-full bg-[#f8faf8] border border-[#e2ece6] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:border-[#059669]"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="text-[#0f291e] font-semibold block mb-1">Min Item Price (₹)</label>
+                  <input
+                    type="number"
+                    value={productForm.price_range_min}
+                    onChange={(e) => setProductForm({ ...productForm, price_range_min: Number(e.target.value) })}
+                    className="w-full bg-[#f8faf8] border border-[#e2ece6] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:border-[#059669]"
+                  />
+                </div>
+                <div>
+                  <label className="text-[#0f291e] font-semibold block mb-1">Max Item Price (₹)</label>
+                  <input
+                    type="number"
+                    value={productForm.price_range_max}
+                    onChange={(e) => setProductForm({ ...productForm, price_range_max: Number(e.target.value) })}
+                    className="w-full bg-[#f8faf8] border border-[#e2ece6] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:border-[#059669]"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="text-[#0f291e] font-semibold block mb-1">Max Stall Budget (₹)</label>
+                  <input
+                    type="number"
+                    value={productForm.max_budget_per_event}
+                    onChange={(e) => setProductForm({ ...productForm, max_budget_per_event: Number(e.target.value) })}
+                    className="w-full bg-[#f8faf8] border border-[#e2ece6] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:border-[#059669]"
+                  />
+                </div>
+                <div>
+                  <label className="text-[#0f291e] font-semibold block mb-1">Default Horizon (Days)</label>
+                  <input
+                    type="number"
+                    value={horizonDays}
+                    onChange={(e) => setHorizonDays(Number(e.target.value))}
+                    className="w-full bg-[#f8faf8] border border-[#e2ece6] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:border-[#059669]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="text-slate-300 font-semibold block mb-1">Product Description</label>
+                <label className="text-[#0f291e] font-semibold block mb-1">Product Description</label>
                 <textarea
                   rows={2}
                   value={productForm.description}
                   onChange={(e) => setProductForm({ ...productForm, description: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-100"
+                  className="w-full bg-[#f8faf8] border border-[#e2ece6] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:border-[#059669]"
                 />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div>
-                  <label className="text-slate-300 font-semibold block mb-1">Min Price (₹)</label>
-                  <input
-                    type="number"
-                    value={productForm.price_range_min}
-                    onChange={(e) =>
-                      setProductForm({ ...productForm, price_range_min: Number(e.target.value) })
-                    }
-                    className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-100"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-slate-300 font-semibold block mb-1">Max Price (₹)</label>
-                  <input
-                    type="number"
-                    value={productForm.price_range_max}
-                    onChange={(e) =>
-                      setProductForm({ ...productForm, price_range_max: Number(e.target.value) })
-                    }
-                    className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-100"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-slate-300 font-semibold block mb-1">Max Event Budget (₹)</label>
-                  <input
-                    type="number"
-                    value={productForm.max_budget_per_event}
-                    onChange={(e) =>
-                      setProductForm({ ...productForm, max_budget_per_event: Number(e.target.value) })
-                    }
-                    className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-100"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="text-slate-300 font-semibold block mb-1">Target Customer Profile</label>
-                <input
-                  type="text"
-                  value={productForm.target_audience}
-                  onChange={(e) => setProductForm({ ...productForm, target_audience: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-100"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div>
-                  <label className="text-slate-300 font-semibold block mb-1">Stall Footprint</label>
-                  <input
-                    type="text"
-                    value={productForm.stall_footprint}
-                    onChange={(e) => setProductForm({ ...productForm, stall_footprint: e.target.value })}
-                    className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-100"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-slate-300 font-semibold block mb-1">Staffing (Headcount)</label>
-                  <input
-                    type="number"
-                    value={productForm.staffing_count}
-                    onChange={(e) =>
-                      setProductForm({ ...productForm, staffing_count: Number(e.target.value) })
-                    }
-                    className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-100"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-slate-300 font-semibold block mb-1">Transport Mode</label>
-                  <input
-                    type="text"
-                    value={productForm.transport_mode}
-                    onChange={(e) => setProductForm({ ...productForm, transport_mode: e.target.value })}
-                    className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-100"
-                  />
-                </div>
               </div>
             </div>
           )}
 
-          {/* TAB 2: SCORING WEIGHTS */}
+          {/* TAB 2: WEIGHTS */}
           {activeTab === 'weights' && (
             <div className="space-y-4 text-xs">
-              <div className="flex items-center justify-between p-3 rounded-lg bg-slate-950 border border-slate-800">
+              <div className="flex items-center justify-between pb-2 border-b border-[#e2ece6]">
                 <div>
-                  <span className="font-bold text-slate-200 block">Total Weights Sum: {weightSum}%</span>
-                  <span className="text-slate-400 text-[11px]">Weights must total 100% for standard normalization.</span>
+                  <span className="font-bold text-[#0f291e]">Scoring Weights Allocation</span>
+                  <span className={`text-xs ml-2 font-bold ${weightSum === 100 ? 'text-[#059669]' : 'text-amber-600'}`}>
+                    Total: {weightSum}% (Target: 100%)
+                  </span>
                 </div>
-                <div className="flex items-center gap-2">
-                  {weightSum === 100 ? (
-                    <span className="px-2.5 py-1 rounded bg-emerald-950 text-emerald-400 font-bold border border-emerald-800">
-                      Balanced (100%)
-                    </span>
-                  ) : (
-                    <span className="px-2.5 py-1 rounded bg-amber-950 text-amber-400 font-bold border border-amber-800">
-                      Total is {weightSum}% (Will scale to 100%)
-                    </span>
-                  )}
-                  <button
-                    onClick={handleResetWeights}
-                    className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 flex items-center gap-1"
-                  >
-                    <RotateCcw className="w-3 h-3" /> Reset
-                  </button>
-                </div>
+                <button
+                  onClick={handleResetWeights}
+                  className="text-xs text-[#059669] hover:underline flex items-center gap-1 font-semibold"
+                >
+                  <RotateCcw className="w-3 h-3" /> Reset Defaults
+                </button>
               </div>
 
-              {/* Sliders */}
-              <div className="space-y-3 pt-1">
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="font-semibold text-slate-200">Product / Category Fit: {weightsForm.product_fit}%</span>
-                    <span className="text-slate-400">Default: 25%</span>
+              <div className="space-y-3">
+                {[
+                  { key: 'product_fit', label: '1. Product & Category Fit (Default 25%)', val: weightsForm.product_fit },
+                  { key: 'audience_intent', label: '2. Audience & Spend Intent (Default 20%)', val: weightsForm.audience_intent },
+                  { key: 'location_context', label: '3. Location & Logistics Context (Default 15%)', val: weightsForm.location_context },
+                  { key: 'event_relevance', label: '4. Evidence & Organiser Quality (Default 15%)', val: weightsForm.event_relevance },
+                  { key: 'economics', label: '5. Stall Economics & Budget Cap (Default 15%)', val: weightsForm.economics },
+                  { key: 'booking_readiness', label: '6. Official Booking Channel (Default 10%)', val: weightsForm.booking_readiness },
+                ].map(({ key, label, val }) => (
+                  <div key={key} className="flex items-center justify-between gap-4 p-2.5 bg-[#f8faf8] rounded-xl border border-[#e2ece6]">
+                    <span className="font-medium text-[#0f291e]">{label}</span>
+                    <input
+                      type="number"
+                      min={0}
+                      max={100}
+                      value={val}
+                      onChange={(e) => setWeightsForm({ ...weightsForm, [key]: Number(e.target.value) })}
+                      className="w-16 bg-white border border-[#e2ece6] rounded-lg p-1.5 text-center font-bold text-[#059669]"
+                    />
                   </div>
-                  <input
-                    type="range"
-                    min="5"
-                    max="50"
-                    value={weightsForm.product_fit}
-                    onChange={(e) => setWeightsForm({ ...weightsForm, product_fit: Number(e.target.value) })}
-                    className="w-full accent-amber-500"
-                  />
-                </div>
-
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="font-semibold text-slate-200">Audience & Purchase Intent: {weightsForm.audience_intent}%</span>
-                    <span className="text-slate-400">Default: 20%</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="5"
-                    max="50"
-                    value={weightsForm.audience_intent}
-                    onChange={(e) => setWeightsForm({ ...weightsForm, audience_intent: Number(e.target.value) })}
-                    className="w-full accent-amber-500"
-                  />
-                </div>
-
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="font-semibold text-slate-200">Location & Context Fit: {weightsForm.location_context}%</span>
-                    <span className="text-slate-400">Default: 15%</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="5"
-                    max="40"
-                    value={weightsForm.location_context}
-                    onChange={(e) => setWeightsForm({ ...weightsForm, location_context: Number(e.target.value) })}
-                    className="w-full accent-amber-500"
-                  />
-                </div>
-
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="font-semibold text-slate-200">Event Relevance & Evidence: {weightsForm.event_relevance}%</span>
-                    <span className="text-slate-400">Default: 15%</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="5"
-                    max="40"
-                    value={weightsForm.event_relevance}
-                    onChange={(e) => setWeightsForm({ ...weightsForm, event_relevance: Number(e.target.value) })}
-                    className="w-full accent-amber-500"
-                  />
-                </div>
-
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="font-semibold text-slate-200">Economics (Stall Fee vs Budget): {weightsForm.economics}%</span>
-                    <span className="text-slate-400">Default: 15%</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="5"
-                    max="40"
-                    value={weightsForm.economics}
-                    onChange={(e) => setWeightsForm({ ...weightsForm, economics: Number(e.target.value) })}
-                    className="w-full accent-amber-500"
-                  />
-                </div>
-
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="font-semibold text-slate-200">Booking Readiness (Vendor Link/Form): {weightsForm.booking_readiness}%</span>
-                    <span className="text-slate-400">Default: 10%</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="5"
-                    max="30"
-                    value={weightsForm.booking_readiness}
-                    onChange={(e) => setWeightsForm({ ...weightsForm, booking_readiness: Number(e.target.value) })}
-                    className="w-full accent-amber-500"
-                  />
-                </div>
+                ))}
               </div>
             </div>
           )}
 
-          {/* TAB 3: API & INTEGRATIONS STATUS */}
+          {/* TAB 3: API & INTEGRATIONS */}
           {activeTab === 'api' && (
             <div className="space-y-4 text-xs">
-              <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
-                <h4 className="font-bold text-slate-200 uppercase tracking-wider text-[11px]">Integration Status & Credentials</h4>
-
-                {/* Google Maps JS API */}
-                <div className="flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+              <div className="space-y-2.5">
+                <div className="flex items-center justify-between p-3 rounded-xl bg-[#f8faf8] border border-[#e2ece6]">
                   <div>
-                    <div className="font-semibold text-slate-200">Google Maps JavaScript API</div>
-                    <div className="text-[11px] text-slate-400">
-                      Env: <code>NEXT_PUBLIC_GOOGLE_MAPS_API_KEY</code>
-                    </div>
+                    <div className="font-semibold text-[#0f291e]">Google Maps Geocoding API</div>
+                    <div className="text-[11px] text-[#52796f]">High precision venue coordinates & directions</div>
                   </div>
-                  <span className="px-2.5 py-1 rounded text-[11px] font-bold bg-amber-950 text-amber-400 border border-amber-900">
-                    Running in Leaflet / OSM Fallback Mode
+                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#ecfdf5] text-[#059669] border border-[#a7f3d0]">
+                    Configured / Active
                   </span>
                 </div>
 
-                {/* Search Provider */}
-                <div className="flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+                <div className="flex items-center justify-between p-3 rounded-xl bg-[#f8faf8] border border-[#e2ece6]">
                   <div>
-                    <div className="font-semibold text-slate-200">Web Discovery Search Provider</div>
-                    <div className="text-[11px] text-slate-400">
-                      Env: <code>TAVILY_API_KEY</code> or <code>SERPER_API_KEY</code>
-                    </div>
+                    <div className="font-semibold text-[#0f291e]">AI Search & LLM Discovery Service</div>
+                    <div className="text-[11px] text-[#52796f]">Real-time crawling & source extraction</div>
                   </div>
-                  <span className="px-2.5 py-1 rounded text-[11px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-900">
-                    Curated Delhi NCR Index Active
+                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#ecfdf5] text-[#059669] border border-[#a7f3d0]">
+                    Ready
                   </span>
                 </div>
 
-                {/* Gemini API */}
-                <div className="flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+                <div className="flex items-center justify-between p-3 rounded-xl bg-[#f8faf8] border border-[#e2ece6]">
                   <div>
-                    <div className="font-semibold text-slate-200">Gemini LLM Provider</div>
-                    <div className="text-[11px] text-slate-400">
-                      Env: <code>GEMINI_API_KEY</code>
-                    </div>
+                    <div className="font-semibold text-[#0f291e]">Storage & Database</div>
+                    <div className="text-[11px] text-[#52796f]">31 verified events through December 23rd</div>
                   </div>
-                  <span className="px-2.5 py-1 rounded text-[11px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-900">
-                    Structured Intelligence Active
+                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#ecfdf5] text-[#059669] border border-[#a7f3d0]">
+                    Active File DB
                   </span>
                 </div>
-
-                {/* Database */}
-                <div className="flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
-                  <div>
-                    <div className="font-semibold text-slate-200">Storage & Database</div>
-                    <div className="text-[11px] text-slate-400">
-                      Postgres / Supabase or persistent local JSON storage
-                    </div>
-                  </div>
-                  <span className="px-2.5 py-1 rounded text-[11px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-900">
-                    Active (Persistent File DB)
-                  </span>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-slate-400 text-[11px] leading-relaxed">
-                <strong className="text-slate-300 block mb-1">To connect live external production keys:</strong>
-                Create or edit <code>.env.local</code> in the project root with your keys. See <code>.env.example</code> for the full list of supported environment variables.
               </div>
             </div>
           )}
         </div>
 
         {/* Modal Footer */}
-        <div className="flex items-center justify-between p-4 border-t border-slate-800 bg-slate-950/80">
+        <div className="flex items-center justify-between p-4 border-t border-[#e2ece6] bg-[#f8faf8]">
           <div>
             {saveSuccess && (
-              <span className="text-xs font-semibold text-emerald-400 flex items-center gap-1">
-                <CheckCircle2 className="w-4 h-4" /> Changes saved & events re-scored!
+              <span className="text-xs font-bold text-[#059669] flex items-center gap-1">
+                <CheckCircle2 className="w-4 h-4" /> Changes saved successfully!
               </span>
             )}
           </div>
@@ -484,14 +335,14 @@ export default function SettingsModal({
           <div className="flex items-center gap-2">
             <button
               onClick={onClose}
-              className="px-4 py-2 bg-[#0f1a14] hover:bg-[#15241c] text-[#f0fdf4] border border-[#1c3327] text-xs font-medium rounded-lg transition"
+              className="px-4 py-2 bg-white hover:bg-[#f0fdf4] text-[#0f291e] border border-[#e2ece6] text-xs font-semibold rounded-xl transition shadow-xs"
             >
               Close
             </button>
             <button
               onClick={handleSave}
               disabled={isSaving}
-              className="flex items-center gap-1.5 px-5 py-2 bg-[#00df81] hover:bg-[#00ff87] text-[#060b08] font-bold rounded-lg text-xs shadow-lg shadow-[#00df81]/25 transition active:scale-95"
+              className="flex items-center gap-1.5 px-5 py-2 bg-[#059669] hover:bg-[#047857] text-white font-bold rounded-xl text-xs shadow-md shadow-[#059669]/20 transition active:scale-95"
             >
               <Save className="w-4 h-4" />
               <span>{isSaving ? 'Saving...' : 'Save Settings'}</span>

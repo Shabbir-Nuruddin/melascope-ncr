@@ -64,19 +64,19 @@ export default function EventEditDialog({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#060b08]/85 backdrop-blur-md overflow-y-auto">
-      <div className="relative w-full max-w-2xl bg-[#0c1510] border border-[#1c3327] rounded-2xl shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/40 backdrop-blur-sm overflow-y-auto">
+      <div className="relative w-full max-w-2xl bg-white border border-[#e2ece6] rounded-2xl shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b border-[#1c3327] bg-[#060b08]/80">
+        <div className="flex items-center justify-between p-5 border-b border-[#e2ece6] bg-[#f8faf8]">
           <div className="flex items-center gap-2">
-            <Edit className="w-5 h-5 text-[#00df81]" />
-            <h3 className="font-bold text-white text-base">
+            <Edit className="w-5 h-5 text-[#059669]" />
+            <h3 className="font-bold text-[#0f291e] text-base">
               {form.id ? 'Edit Opportunity' : 'Add Opportunity Manually'}
             </h3>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-[#6e8a7b] hover:text-white rounded-lg bg-[#0f1a14] border border-[#1c3327] transition"
+            className="p-1.5 text-[#4b6354] hover:text-[#0f291e] rounded-lg bg-[#f0f7f3] border border-[#e2ece6] hover:bg-[#e2ece6] transition"
           >
             <X className="w-5 h-5" />
           </button>
@@ -85,30 +85,30 @@ export default function EventEditDialog({
         {/* Form Body */}
         <form onSubmit={handleSubmit} className="p-5 sm:p-6 overflow-y-auto space-y-4 text-xs">
           {error && (
-            <div className="p-2.5 rounded-lg bg-red-950/50 border border-red-900 text-red-300 text-xs flex items-center gap-2">
+            <div className="p-2.5 rounded-lg bg-red-50 border border-red-200 text-red-800 text-xs flex items-center gap-2">
               <AlertCircle className="w-4 h-4 flex-shrink-0" />
               <span>{error}</span>
             </div>
           )}
 
           <div>
-            <label className="text-slate-300 font-semibold block mb-1">Event Title *</label>
+            <label className="text-[#1b382b] font-medium block mb-1">Event Title *</label>
             <input
               type="text"
               required
               value={form.title || ''}
               onChange={(e) => setForm({ ...form, title: e.target.value })}
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-slate-100"
+              className="w-full bg-[#f8faf8] border border-[#d8e5dd] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
             />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="text-slate-300 font-semibold block mb-1">Event Type</label>
+              <label className="text-[#1b382b] font-medium block mb-1">Event Type</label>
               <select
                 value={form.event_type || 'mela'}
                 onChange={(e) => setForm({ ...form, event_type: e.target.value as EventType })}
-                className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-slate-100"
+                className="w-full bg-[#f8faf8] border border-[#d8e5dd] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
               >
                 <option value="festive_market">Festive Market / Utsav</option>
                 <option value="flea_market">Flea Market / Pop-Up</option>
@@ -121,13 +121,13 @@ export default function EventEditDialog({
             </div>
 
             <div>
-              <label className="text-slate-300 font-semibold block mb-1">Verification Status</label>
+              <label className="text-[#1b382b] font-medium block mb-1">Verification Status</label>
               <select
                 value={form.verification_status || 'verified'}
                 onChange={(e) =>
                   setForm({ ...form, verification_status: e.target.value as VerificationStatus })
                 }
-                className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-slate-100"
+                className="w-full bg-[#f8faf8] border border-[#d8e5dd] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
               >
                 <option value="verified">Verified (Official Source)</option>
                 <option value="partially_verified">Partially Verified</option>
@@ -139,34 +139,34 @@ export default function EventEditDialog({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="text-slate-300 font-semibold block mb-1">Venue Name *</label>
+              <label className="text-[#1b382b] font-medium block mb-1">Venue Name *</label>
               <input
                 type="text"
                 required
                 value={form.venue_name || ''}
                 onChange={(e) => setForm({ ...form, venue_name: e.target.value })}
-                className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-slate-100"
+                className="w-full bg-[#f8faf8] border border-[#d8e5dd] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
               />
             </div>
 
             <div>
-              <label className="text-slate-300 font-semibold block mb-1">Locality & City</label>
+              <label className="text-[#1b382b] font-medium block mb-1">Locality & City</label>
               <input
                 type="text"
                 value={form.locality || ''}
                 onChange={(e) => setForm({ ...form, locality: e.target.value })}
-                className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-slate-100"
+                className="w-full bg-[#f8faf8] border border-[#d8e5dd] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
-              <label className="text-slate-300 font-semibold block mb-1">City</label>
+              <label className="text-[#1b382b] font-medium block mb-1">City</label>
               <select
                 value={form.city || 'Delhi'}
                 onChange={(e) => setForm({ ...form, city: e.target.value })}
-                className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-slate-100"
+                className="w-full bg-[#f8faf8] border border-[#d8e5dd] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
               >
                 <option value="Delhi">Delhi</option>
                 <option value="Gurugram">Gurugram</option>
@@ -178,46 +178,46 @@ export default function EventEditDialog({
             </div>
 
             <div>
-              <label className="text-slate-300 font-semibold block mb-1">Latitude</label>
+              <label className="text-[#1b382b] font-medium block mb-1">Latitude</label>
               <input
                 type="number"
                 step="any"
                 value={form.latitude ?? 28.6139}
                 onChange={(e) => setForm({ ...form, latitude: Number(e.target.value) })}
-                className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-100"
+                className="w-full bg-[#f8faf8] border border-[#d8e5dd] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
               />
             </div>
 
             <div>
-              <label className="text-slate-300 font-semibold block mb-1">Longitude</label>
+              <label className="text-[#1b382b] font-medium block mb-1">Longitude</label>
               <input
                 type="number"
                 step="any"
                 value={form.longitude ?? 77.2090}
                 onChange={(e) => setForm({ ...form, longitude: Number(e.target.value) })}
-                className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-100"
+                className="w-full bg-[#f8faf8] border border-[#d8e5dd] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="text-slate-300 font-semibold block mb-1">Start Date & Time</label>
+              <label className="text-[#1b382b] font-medium block mb-1">Start Date & Time</label>
               <input
                 type="datetime-local"
                 value={form.start_at ? form.start_at.slice(0, 16) : ''}
                 onChange={(e) => setForm({ ...form, start_at: new Date(e.target.value).toISOString() })}
-                className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-100"
+                className="w-full bg-[#f8faf8] border border-[#d8e5dd] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
               />
             </div>
 
             <div>
-              <label className="text-slate-300 font-semibold block mb-1">End Date & Time</label>
+              <label className="text-[#1b382b] font-medium block mb-1">End Date & Time</label>
               <input
                 type="datetime-local"
                 value={form.end_at ? form.end_at.slice(0, 16) : ''}
                 onChange={(e) => setForm({ ...form, end_at: new Date(e.target.value).toISOString() })}
-                className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-100"
+                className="w-full bg-[#f8faf8] border border-[#d8e5dd] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
               />
             </div>
           </div>
@@ -225,35 +225,35 @@ export default function EventEditDialog({
           {/* Pricing & Booking */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
-              <label className="text-slate-300 font-semibold block mb-1">Min Stall Fee (₹)</label>
+              <label className="text-[#1b382b] font-medium block mb-1">Min Stall Fee (₹)</label>
               <input
                 type="number"
                 value={form.stall_fee_min ?? ''}
                 onChange={(e) =>
                   setForm({ ...form, stall_fee_min: e.target.value ? Number(e.target.value) : null })
                 }
-                className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-100"
+                className="w-full bg-[#f8faf8] border border-[#d8e5dd] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
               />
             </div>
 
             <div>
-              <label className="text-slate-300 font-semibold block mb-1">Max Stall Fee (₹)</label>
+              <label className="text-[#1b382b] font-medium block mb-1">Max Stall Fee (₹)</label>
               <input
                 type="number"
                 value={form.stall_fee_max ?? ''}
                 onChange={(e) =>
                   setForm({ ...form, stall_fee_max: e.target.value ? Number(e.target.value) : null })
                 }
-                className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-100"
+                className="w-full bg-[#f8faf8] border border-[#d8e5dd] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
               />
             </div>
 
             <div>
-              <label className="text-slate-300 font-semibold block mb-1">Pricing Basis</label>
+              <label className="text-[#1b382b] font-medium block mb-1">Pricing Basis</label>
               <select
                 value={form.pricing_basis || 'per_event'}
                 onChange={(e) => setForm({ ...form, pricing_basis: e.target.value as PricingBasis })}
-                className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-100"
+                className="w-full bg-[#f8faf8] border border-[#d8e5dd] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
               >
                 <option value="per_event">Per Event</option>
                 <option value="per_day">Per Day</option>
@@ -264,7 +264,7 @@ export default function EventEditDialog({
           </div>
 
           <div>
-            <label className="text-slate-300 font-semibold block mb-1">Vendor Booking URL</label>
+            <label className="text-[#1b382b] font-medium block mb-1">Vendor Booking URL</label>
             <input
               type="url"
               value={form.vendor_booking_url || ''}
@@ -276,44 +276,44 @@ export default function EventEditDialog({
                 })
               }
               placeholder="https://forms.gle/... or direct stall booking page"
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-100"
+              className="w-full bg-[#f8faf8] border border-[#d8e5dd] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
             />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="text-slate-300 font-semibold block mb-1">Organiser Name</label>
+              <label className="text-[#1b382b] font-medium block mb-1">Organiser Name</label>
               <input
                 type="text"
                 value={form.organizer_name || ''}
                 onChange={(e) => setForm({ ...form, organizer_name: e.target.value })}
-                className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-100"
+                className="w-full bg-[#f8faf8] border border-[#d8e5dd] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
               />
             </div>
 
             <div>
-              <label className="text-slate-300 font-semibold block mb-1">Organiser Phone / WhatsApp</label>
+              <label className="text-[#1b382b] font-medium block mb-1">Organiser Phone / WhatsApp</label>
               <input
                 type="text"
                 value={form.organizer_phone || ''}
                 onChange={(e) => setForm({ ...form, organizer_phone: e.target.value })}
-                className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-100"
+                className="w-full bg-[#f8faf8] border border-[#d8e5dd] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
               />
             </div>
           </div>
 
           {/* Footer Actions */}
-          <div className="flex items-center justify-end gap-2 pt-3 border-t border-[#1c3327]">
+          <div className="flex items-center justify-end gap-2 pt-4 border-t border-[#e2ece6]">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 bg-[#0f1a14] hover:bg-[#15241c] text-[#f0fdf4] border border-[#1c3327] rounded-lg font-medium"
+              className="px-4 py-2 bg-[#f0f7f3] hover:bg-[#e2ece6] text-[#2d4a3e] border border-[#d8e5dd] rounded-xl font-medium transition"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-5 py-2 bg-[#00df81] hover:bg-[#00ff87] text-[#060b08] font-bold rounded-lg shadow-lg shadow-[#00df81]/20 transition"
+              className="px-5 py-2.5 bg-[#059669] hover:bg-[#047857] text-white font-bold rounded-xl shadow-sm transition"
             >
               Save Opportunity
             </button>

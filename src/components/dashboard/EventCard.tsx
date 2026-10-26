@@ -13,7 +13,6 @@ import {
   ChevronRight,
   Layers,
   Navigation,
-  MessageSquare,
   Sparkles,
 } from 'lucide-react';
 
@@ -60,8 +59,8 @@ export default function EventCard({
       onClick={onSelect}
       className={`group relative rounded-2xl border p-5 transition-all duration-200 cursor-pointer flex flex-col justify-between ${
         isSelected
-          ? 'bg-[#15241c] border-[#00df81] ring-2 ring-[#00df81]/30 shadow-2xl shadow-[#00df81]/15'
-          : 'bg-[#0c1510] hover:bg-[#0f1a14] border-[#1c3327] hover:border-[#284b39] shadow-md hover:shadow-xl'
+          ? 'bg-[#f0fdf4] border-[#059669] ring-2 ring-[#059669]/20 shadow-lg'
+          : 'bg-white hover:bg-[#fafdfb] border-[#e2ece6] hover:border-[#a7f3d0] shadow-sm hover:shadow-md'
       }`}
     >
       <div>
@@ -70,29 +69,29 @@ export default function EventCard({
           <div className="flex items-center gap-1.5 flex-wrap">
             {/* Verification Badge */}
             {isVerified ? (
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#00df81]/15 text-[#00df81] border border-[#00df81]/30">
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#ecfdf5] text-[#059669] border border-[#a7f3d0]">
                 <ShieldCheck className="w-3 h-3" />
                 Verified
               </span>
             ) : isUnverified ? (
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-amber-950/60 text-amber-300 border border-amber-800/80">
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#fffbeb] text-[#b45309] border border-[#fde68a]">
                 <AlertTriangle className="w-3 h-3" />
                 Lead
               </span>
             ) : (
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#15241c] text-[#6e8a7b] border border-[#1c3327]">
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#f1f5f9] text-[#64748b] border border-[#cbd5e1]">
                 Partial
               </span>
             )}
 
             {/* Type Badge */}
-            <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-[#060b08] text-[#6e8a7b] border border-[#1c3327] uppercase tracking-wider">
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-[#f8faf8] text-[#52796f] border border-[#e2ece6] uppercase tracking-wider font-semibold">
               {event.event_type.replace('_', ' ')}
             </span>
 
             {/* Floor Plan Indicator */}
             {event.has_floor_plan && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#00df81]/15 text-[#00df81] border border-[#00df81]/30">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#ecfdf5] text-[#059669] border border-[#a7f3d0]">
                 <Layers className="w-3 h-3" /> Layout Plan
               </span>
             )}
@@ -105,14 +104,14 @@ export default function EventCard({
             onChange={(e) => onStatusChange(e.target.value as UserStatus)}
             className={`text-[11px] font-bold rounded-lg px-2.5 py-1 border cursor-pointer focus:outline-none transition ${
               event.user_status === 'saved'
-                ? 'bg-[#15241c] text-[#00df81] border-[#00df81]/40'
+                ? 'bg-[#ecfdf5] text-[#059669] border-[#a7f3d0]'
                 : event.user_status === 'applied'
-                ? 'bg-blue-950/80 text-blue-300 border-blue-800'
+                ? 'bg-blue-50 text-blue-700 border-blue-200'
                 : event.user_status === 'booked'
-                ? 'bg-[#00df81]/25 text-[#00df81] border-[#00df81]'
+                ? 'bg-[#059669] text-white border-[#059669]'
                 : event.user_status === 'contacted'
-                ? 'bg-purple-950/80 text-purple-300 border-purple-800'
-                : 'bg-[#060b08] text-[#6e8a7b] border-[#1c3327]'
+                ? 'bg-purple-50 text-purple-700 border-purple-200'
+                : 'bg-[#f8faf8] text-[#52796f] border-[#e2ece6]'
             }`}
           >
             <option value="new">New</option>
@@ -126,16 +125,16 @@ export default function EventCard({
         </div>
 
         {/* Title */}
-        <h3 className="font-black text-lg text-white group-hover:text-[#00df81] transition leading-snug mb-1.5">
+        <h3 className="font-black text-lg text-[#0f291e] group-hover:text-[#059669] transition leading-snug mb-1.5">
           {event.title}
         </h3>
 
         {/* Venue & Locality with directions click */}
-        <div className="flex items-center justify-between text-xs text-[#6e8a7b] mb-3">
+        <div className="flex items-center justify-between text-xs text-[#52796f] mb-3">
           <div className="flex items-center gap-1.5 truncate">
-            <MapPin className="w-3.5 h-3.5 text-[#00df81] flex-shrink-0" />
-            <span className="truncate">{event.venue_name}, {event.locality}</span>
-            <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#060b08] text-[#6e8a7b] border border-[#1c3327]">
+            <MapPin className="w-3.5 h-3.5 text-[#059669] flex-shrink-0" />
+            <span className="truncate font-medium">{event.venue_name}, {event.locality}</span>
+            <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#f8faf8] text-[#52796f] border border-[#e2ece6]">
               {event.city}
             </span>
           </div>
@@ -145,7 +144,7 @@ export default function EventCard({
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="p-1 rounded text-[#6e8a7b] hover:text-[#00df81] hover:bg-[#15241c] transition flex-shrink-0"
+            className="p-1 rounded text-[#52796f] hover:text-[#059669] hover:bg-[#ecfdf5] transition flex-shrink-0"
             title="Directions in Google Maps"
           >
             <Navigation className="w-3.5 h-3.5" />
@@ -153,15 +152,15 @@ export default function EventCard({
         </div>
 
         {/* Date & Stall Fee Highlight Box */}
-        <div className="p-3 rounded-xl bg-[#060b08] border border-[#1c3327] mb-3.5 space-y-2">
+        <div className="p-3 rounded-xl bg-[#f8faf8] border border-[#e2ece6] mb-3.5 space-y-2">
           <div className="flex items-center justify-between text-xs">
-            <div className="flex items-center gap-1.5 text-[#f0fdf4]">
-              <Calendar className="w-3.5 h-3.5 text-[#00df81]" />
-              <span className="font-medium">{startDate === endDate ? startDate : `${startDate} – ${endDate}`}</span>
+            <div className="flex items-center gap-1.5 text-[#0f291e]">
+              <Calendar className="w-3.5 h-3.5 text-[#059669]" />
+              <span className="font-semibold">{startDate === endDate ? startDate : `${startDate} – ${endDate}`}</span>
             </div>
 
-            <div className="flex items-center gap-1 font-black text-sm text-[#00df81]">
-              <IndianRupee className="w-3.5 h-3.5 text-[#00df81]" />
+            <div className="flex items-center gap-1 font-black text-sm text-[#059669]">
+              <IndianRupee className="w-3.5 h-3.5 text-[#059669]" />
               {event.stall_fee_max ? (
                 <span>
                   {event.stall_fee_min && event.stall_fee_min !== event.stall_fee_max
@@ -169,32 +168,32 @@ export default function EventCard({
                     : `₹${event.stall_fee_max.toLocaleString('en-IN')}`}
                 </span>
               ) : (
-                <span className="text-[#6e8a7b] font-normal italic text-xs">Fee unannounced</span>
+                <span className="text-[#64748b] font-normal italic text-xs">Fee unannounced</span>
               )}
             </div>
           </div>
 
           {/* Quick Fit Score Progress Bar */}
-          <div className="space-y-1 pt-1 border-t border-[#1c3327]/60">
+          <div className="space-y-1 pt-1.5 border-t border-[#e2ece6]">
             <div className="flex items-center justify-between text-[11px]">
-              <span className="text-[#6e8a7b] flex items-center gap-1">
-                <Sparkles className="w-3 h-3 text-[#00df81]" /> Commercial Fit Score
+              <span className="text-[#52796f] font-medium flex items-center gap-1">
+                <Sparkles className="w-3 h-3 text-[#059669]" /> Commercial Fit Score
               </span>
-              <span className="font-bold text-white">
-                <span className={event.fit_score >= 80 ? 'text-[#00df81]' : event.fit_score >= 65 ? 'text-[#a3e635]' : 'text-[#6e8a7b]'}>
+              <span className="font-bold text-[#0f291e]">
+                <span className={event.fit_score >= 80 ? 'text-[#059669]' : event.fit_score >= 65 ? 'text-[#65a30d]' : 'text-[#64748b]'}>
                   {event.fit_score}
                 </span>
-                <span className="text-[10px] text-[#6e8a7b] font-normal"> / 100</span>
+                <span className="text-[10px] text-[#64748b] font-normal"> / 100</span>
               </span>
             </div>
-            <div className="w-full bg-[#15241c] h-1.5 rounded-full overflow-hidden">
+            <div className="w-full bg-[#e2ece6] h-1.5 rounded-full overflow-hidden">
               <div
                 className={`h-full rounded-full ${
                   event.fit_score >= 80
-                    ? 'bg-[#00df81]'
+                    ? 'bg-[#059669]'
                     : event.fit_score >= 65
-                    ? 'bg-[#a3e635]'
-                    : 'bg-[#6e8a7b]'
+                    ? 'bg-[#65a30d]'
+                    : 'bg-[#64748b]'
                 }`}
                 style={{ width: `${event.fit_score}%` }}
               />
@@ -203,15 +202,15 @@ export default function EventCard({
         </div>
 
         {/* Audience / Context Summary */}
-        <p className="text-xs text-[#6e8a7b] line-clamp-2 mb-3">
+        <p className="text-xs text-[#52796f] line-clamp-2 mb-3 leading-relaxed">
           {event.recommendation || event.description || `Commercial opportunity at ${event.venue_name}.`}
         </p>
       </div>
 
       {/* Action Footer */}
-      <div className="flex items-center justify-between pt-3 border-t border-[#1c3327] text-xs">
-        <span className="text-[11px] text-[#6e8a7b]">
-          Organiser: <strong className="text-[#f0fdf4] font-medium">{event.organizer_name}</strong>
+      <div className="flex items-center justify-between pt-3 border-t border-[#e2ece6] text-xs">
+        <span className="text-[11px] text-[#52796f]">
+          Organiser: <strong className="text-[#0f291e] font-semibold">{event.organizer_name}</strong>
         </span>
 
         <div className="flex items-center gap-2">
@@ -221,7 +220,7 @@ export default function EventCard({
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="inline-flex items-center gap-1 px-3 py-1.5 bg-[#00df81] hover:bg-[#00ff87] text-[#060b08] font-black rounded-lg text-xs shadow-md shadow-[#00df81]/20 transition"
+              className="inline-flex items-center gap-1 px-3 py-1.5 bg-[#059669] hover:bg-[#047857] text-white font-bold rounded-lg text-xs shadow-sm shadow-[#059669]/20 transition"
               title="Open Official Vendor Application Form"
             >
               <span>Book Stall</span>
@@ -234,10 +233,10 @@ export default function EventCard({
               e.stopPropagation();
               onOpenDetails();
             }}
-            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#0f1a14] hover:bg-[#15241c] text-[#f0fdf4] border border-[#1c3327] hover:border-[#00df81]/40 text-xs font-semibold transition"
+            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white hover:bg-[#f0fdf4] text-[#0f291e] border border-[#e2ece6] hover:border-[#a7f3d0] text-xs font-semibold transition shadow-xs"
           >
             <span>Intel</span>
-            <ChevronRight className="w-3.5 h-3.5 text-[#00df81]" />
+            <ChevronRight className="w-3.5 h-3.5 text-[#059669]" />
           </button>
         </div>
       </div>

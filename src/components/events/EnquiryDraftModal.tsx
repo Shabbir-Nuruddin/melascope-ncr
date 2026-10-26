@@ -7,10 +7,8 @@ import {
   MessageSquare,
   Copy,
   CheckCircle2,
-  Send,
   Mail,
   Phone,
-  FileText,
   Sparkles,
 } from 'lucide-react';
 
@@ -102,19 +100,19 @@ Via MelaScope NCR (TETR Edition)`;
   }
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center p-3 sm:p-4 bg-[#060b08]/85 backdrop-blur-md overflow-y-auto">
-      <div className="relative w-full max-w-2xl bg-[#0c1510] border border-[#1c3327] rounded-2xl shadow-2xl overflow-hidden my-auto max-h-[90vh] flex flex-col">
+    <div className="fixed inset-0 z-[60] flex items-center justify-center p-3 sm:p-4 bg-black/40 backdrop-blur-sm overflow-y-auto">
+      <div className="relative w-full max-w-2xl bg-white border border-[#e2ece6] rounded-2xl shadow-2xl overflow-hidden my-auto max-h-[90vh] flex flex-col text-[#0f291e]">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-[#1c3327] bg-[#060b08]/80">
+        <div className="flex items-center justify-between p-4 border-b border-[#e2ece6] bg-[#f8faf8]">
           <div className="flex items-center gap-2">
-            <div className="p-2 rounded-lg bg-[#15241c] text-[#00df81] border border-[#00df81]/30">
+            <div className="p-2 rounded-xl bg-[#ecfdf5] text-[#059669] border border-[#a7f3d0]">
               <MessageSquare className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="font-bold text-white text-sm">
+              <h3 className="font-bold text-[#0f291e] text-sm">
                 Request Missing Details from Organiser
               </h3>
-              <p className="text-[11px] text-[#6e8a7b]">
+              <p className="text-[11px] text-[#52796f]">
                 Tailored enquiry asking only for missing fields ({missingPoints.length} detected)
               </p>
             </div>
@@ -122,7 +120,7 @@ Via MelaScope NCR (TETR Edition)`;
 
           <button
             onClick={onClose}
-            className="p-1.5 text-[#6e8a7b] hover:text-white bg-[#0f1a14] rounded-lg transition"
+            className="p-1.5 text-[#52796f] hover:text-[#0f291e] bg-white border border-[#e2ece6] rounded-xl transition shadow-xs"
           >
             <X className="w-4 h-4" />
           </button>
@@ -131,15 +129,15 @@ Via MelaScope NCR (TETR Edition)`;
         {/* Modal Body */}
         <div className="p-5 overflow-y-auto space-y-4 text-xs">
           {/* Missing Fields Summary */}
-          <div className="p-3 rounded-xl bg-[#060b08] border border-[#1c3327]">
-            <div className="text-[11px] font-bold text-[#6e8a7b] uppercase mb-1.5">
+          <div className="p-3 rounded-xl bg-[#f8faf8] border border-[#e2ece6]">
+            <div className="text-[11px] font-bold text-[#52796f] uppercase mb-1.5">
               Identified Information Gaps:
             </div>
             <div className="flex flex-wrap gap-1.5">
               {missingPoints.map((pt, i) => (
                 <span
                   key={i}
-                  className="px-2 py-0.5 rounded bg-[#0f1a14] text-[#00df81] border border-[#1c3327] text-[10px]"
+                  className="px-2.5 py-1 rounded-lg bg-white text-[#059669] border border-[#a7f3d0] text-[10px] font-semibold shadow-xs"
                 >
                   • {pt.slice(0, 48)}...
                 </span>
@@ -150,12 +148,12 @@ Via MelaScope NCR (TETR Edition)`;
           {/* Editable Draft */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-[11px] font-semibold text-[#f0fdf4]">
+              <label className="text-[11px] font-semibold text-[#0f291e]">
                 Editable Enquiry Draft (WhatsApp / Email):
               </label>
               <button
                 onClick={handleCopy}
-                className="text-[#00df81] hover:text-[#00ff87] flex items-center gap-1 font-bold"
+                className="text-[#059669] hover:text-[#047857] flex items-center gap-1 font-bold"
               >
                 {copied ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                 <span>{copied ? 'Copied to Clipboard!' : 'Copy Text'}</span>
@@ -166,7 +164,7 @@ Via MelaScope NCR (TETR Edition)`;
               rows={8}
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
-              className="w-full bg-[#060b08] border border-[#1c3327] rounded-xl p-3 text-[#f0fdf4] font-mono text-[11px] focus:outline-none focus:ring-1 focus:ring-[#00df81] focus:border-[#00df81]"
+              className="w-full bg-[#f8faf8] border border-[#e2ece6] rounded-xl p-3 text-[#0f291e] font-mono text-[11px] focus:outline-none focus:ring-1 focus:ring-[#059669] focus:border-[#059669]"
             />
           </div>
 
@@ -177,13 +175,13 @@ Via MelaScope NCR (TETR Edition)`;
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow transition"
+                className="flex items-center gap-1.5 px-4 py-2 bg-[#059669] hover:bg-[#047857] text-white font-bold rounded-xl shadow-sm transition"
               >
                 <Phone className="w-4 h-4" />
                 <span>Open in WhatsApp (+{cleanPhone})</span>
               </a>
             ) : (
-              <span className="text-[11px] text-[#6e8a7b] py-2 px-3 bg-[#060b08] rounded-lg border border-[#1c3327]">
+              <span className="text-[11px] text-[#52796f] py-2 px-3 bg-[#f8faf8] rounded-xl border border-[#e2ece6]">
                 No organiser phone number on record
               </span>
             )}
@@ -193,23 +191,23 @@ Via MelaScope NCR (TETR Edition)`;
                 href={mailtoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 px-4 py-2 bg-[#0f1a14] hover:bg-[#15241c] text-[#f0fdf4] border border-[#1c3327] font-medium rounded-xl transition"
+                className="flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-[#f0fdf4] text-[#0f291e] border border-[#e2ece6] font-semibold rounded-xl transition shadow-xs"
               >
-                <Mail className="w-4 h-4 text-[#00df81]" />
+                <Mail className="w-4 h-4 text-[#059669]" />
                 <span>Send via Email</span>
               </a>
             )}
           </div>
 
           {/* Paste Organiser Reply Parser */}
-          <div className="pt-3 border-t border-[#1c3327] space-y-2">
+          <div className="pt-3 border-t border-[#e2ece6] space-y-2">
             <div className="flex items-center justify-between">
-              <label className="text-[11px] font-semibold text-[#f0fdf4] flex items-center gap-1">
-                <Sparkles className="w-3.5 h-3.5 text-[#00df81]" />
+              <label className="text-[11px] font-semibold text-[#0f291e] flex items-center gap-1">
+                <Sparkles className="w-3.5 h-3.5 text-[#059669]" />
                 <span>Log Organiser Reply</span>
               </label>
               {replyParsed && (
-                <span className="text-[#00df81] text-[10px] font-bold">✓ Saved to notes!</span>
+                <span className="text-[#059669] text-[10px] font-bold">✓ Saved to notes!</span>
               )}
             </div>
 
@@ -218,13 +216,13 @@ Via MelaScope NCR (TETR Edition)`;
               placeholder="Paste organiser's reply message here (quotes, prices, dimensions)..."
               value={replyText}
               onChange={(e) => setReplyText(e.target.value)}
-              className="w-full bg-[#060b08] border border-[#1c3327] rounded-xl p-2.5 text-xs text-[#f0fdf4] focus:outline-none focus:border-[#00df81]"
+              className="w-full bg-[#f8faf8] border border-[#e2ece6] rounded-xl p-2.5 text-xs text-[#0f291e] focus:outline-none focus:border-[#059669]"
             />
 
             <button
               onClick={handleParseReply}
               disabled={!replyText.trim()}
-              className="px-3.5 py-1.5 bg-[#0f1a14] hover:bg-[#15241c] disabled:opacity-50 text-[#00df81] border border-[#00df81]/40 rounded-lg text-xs font-semibold transition"
+              className="px-3.5 py-1.5 bg-[#ecfdf5] hover:bg-[#d1fae5] disabled:opacity-50 text-[#059669] border border-[#a7f3d0] rounded-xl text-xs font-bold transition shadow-xs"
             >
               Attach Reply to Opportunity Notes
             </button>

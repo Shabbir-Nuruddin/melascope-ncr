@@ -254,15 +254,15 @@ export default function AddToMelaScopeModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#060b08]/85 backdrop-blur-md overflow-y-auto">
-      <div className="relative w-full max-w-2xl bg-[#0c1510] border border-[#1c3327] rounded-2xl shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/40 backdrop-blur-sm overflow-y-auto">
+      <div className="relative w-full max-w-2xl bg-white border border-[#e2ece6] rounded-2xl shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b border-[#1c3327] bg-[#060b08]/80">
+        <div className="flex items-center justify-between p-5 border-b border-[#e2ece6] bg-[#f8faf8]">
           <div className="flex items-center gap-2">
-            <PlusCircle className="w-5 h-5 text-[#00df81]" />
+            <PlusCircle className="w-5 h-5 text-[#059669]" />
             <div>
-              <h3 className="font-black text-white text-base">Add Opportunity • TETR Ingestion</h3>
-              <p className="text-xs text-[#6e8a7b]">
+              <h3 className="font-bold text-[#0f291e] text-base">Add Opportunity • Ingestion</h3>
+              <p className="text-xs text-[#4b6354]">
                 Import from URL, upload poster/PDF, paste text, or enter manually
               </p>
             </div>
@@ -270,7 +270,7 @@ export default function AddToMelaScopeModal({
 
           <button
             onClick={onClose}
-            className="p-1.5 text-[#6e8a7b] hover:text-white rounded-lg bg-[#0f1a14] border border-[#1c3327] transition"
+            className="p-1.5 text-[#4b6354] hover:text-[#0f291e] rounded-lg bg-[#f0f7f3] border border-[#e2ece6] hover:bg-[#e2ece6] transition"
           >
             <X className="w-5 h-5" />
           </button>
@@ -278,11 +278,11 @@ export default function AddToMelaScopeModal({
 
         {/* Tab selection if NOT in review step */}
         {!reviewEvent && (
-          <div className="flex border-b border-[#1c3327] bg-[#060b08]/50 px-5 text-xs font-semibold">
+          <div className="flex border-b border-[#e2ece6] bg-[#f8faf8] px-5 text-xs font-semibold">
             <button
               onClick={() => setActiveTab('url')}
               className={`py-3 px-3 border-b-2 flex items-center gap-1.5 transition ${
-                activeTab === 'url' ? 'border-[#00df81] text-[#00df81]' : 'border-transparent text-[#6e8a7b]'
+                activeTab === 'url' ? 'border-[#059669] text-[#059669]' : 'border-transparent text-[#627d6d] hover:text-[#0f291e]'
               }`}
             >
               <LinkIcon className="w-3.5 h-3.5" />
@@ -291,7 +291,7 @@ export default function AddToMelaScopeModal({
             <button
               onClick={() => setActiveTab('upload')}
               className={`py-3 px-3 border-b-2 flex items-center gap-1.5 transition ${
-                activeTab === 'upload' ? 'border-[#00df81] text-[#00df81]' : 'border-transparent text-[#6e8a7b]'
+                activeTab === 'upload' ? 'border-[#059669] text-[#059669]' : 'border-transparent text-[#627d6d] hover:text-[#0f291e]'
               }`}
             >
               <Upload className="w-3.5 h-3.5" />
@@ -300,7 +300,7 @@ export default function AddToMelaScopeModal({
             <button
               onClick={() => setActiveTab('text')}
               className={`py-3 px-3 border-b-2 flex items-center gap-1.5 transition ${
-                activeTab === 'text' ? 'border-[#00df81] text-[#00df81]' : 'border-transparent text-[#6e8a7b]'
+                activeTab === 'text' ? 'border-[#059669] text-[#059669]' : 'border-transparent text-[#627d6d] hover:text-[#0f291e]'
               }`}
             >
               <FileText className="w-3.5 h-3.5" />
@@ -312,7 +312,7 @@ export default function AddToMelaScopeModal({
         {/* Body */}
         <div className="p-5 sm:p-6 overflow-y-auto space-y-4 text-xs">
           {errorMessage && (
-            <div className="p-3 rounded-lg bg-red-950/50 border border-red-900 text-red-300 text-xs flex items-center gap-2">
+            <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-800 text-xs flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 flex-shrink-0" />
               <span>{errorMessage}</span>
             </div>
@@ -323,7 +323,7 @@ export default function AddToMelaScopeModal({
             <>
               {activeTab === 'url' && (
                 <div className="space-y-3">
-                  <label className="text-[#f0fdf4] font-semibold block">
+                  <label className="text-[#1b382b] font-medium block">
                     Paste Event URL, Instagram Link, Pinterest Pin, or Vendor Form:
                   </label>
                   <input
@@ -331,16 +331,16 @@ export default function AddToMelaScopeModal({
                     value={urlInput}
                     onChange={(e) => setUrlInput(e.target.value)}
                     placeholder="https://bookeventstall.com/... or https://www.instagram.com/p/... or https://forms.gle/..."
-                    className="w-full bg-[#060b08] border border-[#1c3327] rounded-xl p-3 text-xs text-[#f0fdf4] placeholder-[#6e8a7b] focus:outline-none focus:ring-1 focus:ring-[#00df81] focus:border-[#00df81]"
+                    className="w-full bg-[#f8faf8] border border-[#d8e5dd] rounded-xl p-3 text-xs text-[#0f291e] placeholder-[#8ba395] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
                   />
-                  <div className="text-[11px] text-[#6e8a7b]">
+                  <div className="text-[11px] text-[#627d6d]">
                     Supports BookEventStall, Fleamela, Instagram public posts, Pinterest flyers, Google Forms, and official event websites.
                   </div>
                   <div className="flex justify-end pt-2">
                     <button
                       onClick={handleProcessUrl}
                       disabled={isProcessing || !urlInput.trim()}
-                      className="px-4 py-2 bg-[#00df81] hover:bg-[#00ff87] disabled:opacity-50 text-[#060b08] font-bold rounded-lg shadow transition"
+                      className="px-4 py-2 bg-[#059669] hover:bg-[#047857] disabled:opacity-50 text-white font-semibold rounded-xl shadow-sm transition"
                     >
                       {isProcessing ? 'Extracting Facts...' : 'Extract & Review Opportunity'}
                     </button>
@@ -359,18 +359,18 @@ export default function AddToMelaScopeModal({
                   />
                   <div
                     onClick={() => fileInputRef.current?.click()}
-                    className="p-8 border-2 border-dashed border-[#1c3327] hover:border-[#00df81] rounded-2xl cursor-pointer bg-[#060b08]/50 hover:bg-[#060b08] transition"
+                    className="p-8 border-2 border-dashed border-[#c2d7cb] hover:border-[#059669] rounded-2xl cursor-pointer bg-[#f8faf8] hover:bg-[#ecfdf5]/40 transition"
                   >
-                    <Upload className="w-10 h-10 text-[#00df81] mx-auto mb-2" />
-                    <h5 className="font-semibold text-white text-sm mb-1">Click to upload poster or brochure</h5>
-                    <p className="text-xs text-[#6e8a7b]">PNG, JPG, PDF up to 15MB. Automatically attaches as floor plan/poster.</p>
+                    <Upload className="w-10 h-10 text-[#059669] mx-auto mb-2" />
+                    <h5 className="font-semibold text-[#0f291e] text-sm mb-1">Click to upload poster or brochure</h5>
+                    <p className="text-xs text-[#627d6d]">PNG, JPG, PDF up to 15MB. Automatically attaches as floor plan/poster.</p>
                   </div>
                 </div>
               )}
 
               {activeTab === 'text' && (
                 <div className="space-y-3">
-                  <label className="text-[#f0fdf4] font-semibold block">
+                  <label className="text-[#1b382b] font-medium block">
                     Paste WhatsApp message, organiser email, or flyer text:
                   </label>
                   <textarea
@@ -378,13 +378,13 @@ export default function AddToMelaScopeModal({
                     value={textInput}
                     onChange={(e) => setTextInput(e.target.value)}
                     placeholder="Paste event text here..."
-                    className="w-full bg-[#060b08] border border-[#1c3327] rounded-xl p-3 text-xs text-[#f0fdf4] placeholder-[#6e8a7b] focus:outline-none focus:ring-1 focus:ring-[#00df81] focus:border-[#00df81]"
+                    className="w-full bg-[#f8faf8] border border-[#d8e5dd] rounded-xl p-3 text-xs text-[#0f291e] placeholder-[#8ba395] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
                   />
                   <div className="flex justify-end pt-2">
                     <button
                       onClick={handleProcessText}
                       disabled={isProcessing || !textInput.trim()}
-                      className="px-4 py-2 bg-[#00df81] hover:bg-[#00ff87] disabled:opacity-50 text-[#060b08] font-bold rounded-lg shadow transition"
+                      className="px-4 py-2 bg-[#059669] hover:bg-[#047857] disabled:opacity-50 text-white font-semibold rounded-xl shadow-sm transition"
                     >
                       {isProcessing ? 'Parsing Facts...' : 'Extract & Review Opportunity'}
                     </button>
@@ -397,23 +397,23 @@ export default function AddToMelaScopeModal({
           {/* STEP 2: REVIEW EXTRACTED FIELDS BEFORE SAVING */}
           {reviewEvent && (
             <div className="space-y-4">
-              <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-                <span className="font-bold text-white text-sm flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+              <div className="flex items-center justify-between pb-2 border-b border-[#e2ece6]">
+                <span className="font-bold text-[#0f291e] text-sm flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#059669]" />
                   Review Extracted Details Before Saving
                 </span>
                 <button
                   onClick={() => setReviewEvent(null)}
-                  className="text-xs text-slate-400 hover:text-white"
+                  className="text-xs text-[#627d6d] hover:text-[#0f291e]"
                 >
                   ← Back to Input
                 </button>
               </div>
 
               {potentialDuplicate && (
-                <div className="p-3 rounded-lg bg-amber-950/50 border border-amber-800 text-amber-300 text-xs">
+                <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs">
                   <strong>Notice: Potential Duplicate Found</strong>
-                  <p className="mt-0.5 text-slate-300">
+                  <p className="mt-0.5 text-amber-800">
                     Matches existing event: "<strong>{potentialDuplicate.title}</strong>". Saving will merge source evidence.
                   </p>
                 </div>
@@ -422,44 +422,44 @@ export default function AddToMelaScopeModal({
               {/* Editable Fields in Review */}
               <div className="space-y-3">
                 <div>
-                  <label className="text-slate-300 font-semibold block mb-1">Event Title</label>
+                  <label className="text-[#1b382b] font-medium block mb-1">Event Title</label>
                   <input
                     type="text"
                     value={reviewEvent.title || ''}
                     onChange={(e) => setReviewEvent({ ...reviewEvent, title: e.target.value })}
-                    className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-100"
+                    className="w-full bg-[#f8faf8] border border-[#d8e5dd] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
                   />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="text-slate-300 font-semibold block mb-1">Venue Name</label>
+                    <label className="text-[#1b382b] font-medium block mb-1">Venue Name</label>
                     <input
                       type="text"
                       value={reviewEvent.venue_name || ''}
                       onChange={(e) => setReviewEvent({ ...reviewEvent, venue_name: e.target.value })}
-                      className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-100"
+                      className="w-full bg-[#f8faf8] border border-[#d8e5dd] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
                     />
                   </div>
 
                   <div>
-                    <label className="text-slate-300 font-semibold block mb-1">Locality & City</label>
+                    <label className="text-[#1b382b] font-medium block mb-1">Locality & City</label>
                     <input
                       type="text"
                       value={reviewEvent.locality || ''}
                       onChange={(e) => setReviewEvent({ ...reviewEvent, locality: e.target.value })}
-                      className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-100"
+                      className="w-full bg-[#f8faf8] border border-[#d8e5dd] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div>
-                    <label className="text-slate-300 font-semibold block mb-1">City</label>
+                    <label className="text-[#1b382b] font-medium block mb-1">City</label>
                     <select
                       value={reviewEvent.city || 'Delhi'}
                       onChange={(e) => setReviewEvent({ ...reviewEvent, city: e.target.value })}
-                      className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-100"
+                      className="w-full bg-[#f8faf8] border border-[#d8e5dd] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
                     >
                       <option value="Delhi">Delhi</option>
                       <option value="Gurugram">Gurugram</option>
@@ -471,7 +471,7 @@ export default function AddToMelaScopeModal({
                   </div>
 
                   <div>
-                    <label className="text-slate-300 font-semibold block mb-1">Min Stall Fee (₹)</label>
+                    <label className="text-[#1b382b] font-medium block mb-1">Min Stall Fee (₹)</label>
                     <input
                       type="number"
                       value={reviewEvent.stall_fee_min ?? ''}
@@ -482,12 +482,12 @@ export default function AddToMelaScopeModal({
                         })
                       }
                       placeholder="e.g. 15000"
-                      className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-100"
+                      className="w-full bg-[#f8faf8] border border-[#d8e5dd] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
                     />
                   </div>
 
                   <div>
-                    <label className="text-slate-300 font-semibold block mb-1">Max Stall Fee (₹)</label>
+                    <label className="text-[#1b382b] font-medium block mb-1">Max Stall Fee (₹)</label>
                     <input
                       type="number"
                       value={reviewEvent.stall_fee_max ?? ''}
@@ -498,13 +498,13 @@ export default function AddToMelaScopeModal({
                         })
                       }
                       placeholder="e.g. 25000"
-                      className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-100"
+                      className="w-full bg-[#f8faf8] border border-[#d8e5dd] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-slate-300 font-semibold block mb-1">Vendor Booking URL</label>
+                  <label className="text-[#1b382b] font-medium block mb-1">Vendor Booking URL</label>
                   <input
                     type="url"
                     value={reviewEvent.vendor_booking_url || ''}
@@ -516,22 +516,22 @@ export default function AddToMelaScopeModal({
                       })
                     }
                     placeholder="Official vendor application or form link"
-                    className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-100"
+                    className="w-full bg-[#f8faf8] border border-[#d8e5dd] rounded-xl p-2.5 text-[#0f291e] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
                   />
                 </div>
               </div>
 
               {/* Actions */}
-              <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-800">
+              <div className="flex items-center justify-end gap-2 pt-4 border-t border-[#e2ece6]">
                 <button
                   onClick={() => setReviewEvent(null)}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium rounded-lg"
+                  className="px-4 py-2 bg-[#f0f7f3] hover:bg-[#e2ece6] text-[#2d4a3e] border border-[#d8e5dd] font-medium rounded-xl transition"
                 >
                   Discard
                 </button>
                 <button
                   onClick={handleSaveFinal}
-                  className="px-5 py-2 bg-[#00df81] hover:bg-[#00ff87] text-[#060b08] font-bold rounded-lg shadow-lg shadow-[#00df81]/25 transition"
+                  className="px-5 py-2.5 bg-[#059669] hover:bg-[#047857] text-white font-bold rounded-xl shadow-sm transition"
                 >
                   Save Opportunity to Database
                 </button>

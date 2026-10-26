@@ -30,9 +30,9 @@ export default function EventTableView({
   onStatusChange,
 }: EventTableViewProps) {
   return (
-    <div className="w-full overflow-x-auto rounded-xl border border-[#1c3327] bg-[#0c1510] shadow-xl">
-      <table className="w-full text-left text-xs text-[#f0fdf4]">
-        <thead className="bg-[#060b08] text-[11px] text-[#6e8a7b] uppercase font-mono tracking-wider border-b border-[#1c3327]">
+    <div className="w-full overflow-x-auto rounded-xl border border-[#e2ece6] bg-white shadow-sm">
+      <table className="w-full text-left text-xs text-[#0f291e]">
+        <thead className="bg-[#f8faf8] text-[11px] text-[#52796f] uppercase font-mono tracking-wider border-b border-[#e2ece6]">
           <tr>
             <th className="py-3 px-3">Fit</th>
             <th className="py-3 px-4 min-w-[240px]">Opportunity & Venue</th>
@@ -43,7 +43,7 @@ export default function EventTableView({
             <th className="py-3 px-4 text-right">Actions</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-[#1c3327]">
+        <tbody className="divide-y divide-[#e2ece6]">
           {events.map((ev) => {
             const isSelected = selectedEvent?.id === ev.id;
             const startDate = new Date(ev.start_at).toLocaleDateString('en-IN', {
@@ -71,8 +71,8 @@ export default function EventTableView({
                 onClick={() => onSelectEvent(ev)}
                 className={`transition cursor-pointer ${
                   isSelected
-                    ? 'bg-[#15241c] text-white font-medium'
-                    : 'hover:bg-[#121e17]'
+                    ? 'bg-[#ecfdf5] text-[#0f291e] font-semibold'
+                    : 'hover:bg-[#f9fcfb]'
                 }`}
               >
                 {/* Fit Score Pill */}
@@ -80,10 +80,10 @@ export default function EventTableView({
                   <div
                     className={`inline-flex items-center justify-center font-black px-2 py-1 rounded-lg border text-xs ${
                       ev.fit_score >= 80
-                        ? 'bg-[#00df81]/15 text-[#00df81] border-[#00df81]/40'
+                        ? 'bg-[#ecfdf5] text-[#059669] border-[#a7f3d0]'
                         : ev.fit_score >= 65
-                        ? 'bg-[#a3e635]/15 text-[#a3e635] border-[#a3e635]/40'
-                        : 'bg-[#15241c] text-[#6e8a7b] border-[#1c3327]'
+                        ? 'bg-[#f7fee7] text-[#65a30d] border-[#d9f99d]'
+                        : 'bg-[#f1f5f9] text-[#64748b] border-[#cbd5e1]'
                     }`}
                   >
                     {ev.fit_score}
@@ -92,14 +92,14 @@ export default function EventTableView({
 
                 {/* Title & Venue */}
                 <td className="py-3 px-4">
-                  <div className="font-bold text-sm text-white group-hover:text-[#00df81] leading-snug">
+                  <div className="font-bold text-sm text-[#0f291e] group-hover:text-[#059669] leading-snug">
                     {ev.title}
                   </div>
-                  <div className="flex items-center gap-1.5 text-[11px] text-[#6e8a7b] mt-0.5">
-                    <MapPin className="w-3 h-3 text-[#00df81] flex-shrink-0" />
+                  <div className="flex items-center gap-1.5 text-[11px] text-[#52796f] mt-0.5">
+                    <MapPin className="w-3 h-3 text-[#059669] flex-shrink-0" />
                     <span>{ev.venue_name}, {ev.locality} ({ev.city})</span>
                     {ev.has_floor_plan && (
-                      <span className="text-[10px] px-1 rounded bg-[#00df81]/15 text-[#00df81] border border-[#00df81]/30 flex items-center gap-0.5">
+                      <span className="text-[10px] px-1 rounded bg-[#ecfdf5] text-[#059669] border border-[#a7f3d0] flex items-center gap-0.5 font-semibold">
                         <Layers className="w-2.5 h-2.5" /> Plan
                       </span>
                     )}
@@ -107,38 +107,38 @@ export default function EventTableView({
                 </td>
 
                 {/* Dates */}
-                <td className="py-3 px-3 whitespace-nowrap text-[#f0fdf4]">
+                <td className="py-3 px-3 whitespace-nowrap text-[#0f291e]">
                   <div className="flex items-center gap-1 text-[11px]">
-                    <Calendar className="w-3 h-3 text-[#00df81]" />
-                    <span>{startDate === endDate ? startDate : `${startDate} – ${endDate}`}</span>
+                    <Calendar className="w-3 h-3 text-[#059669]" />
+                    <span className="font-medium">{startDate === endDate ? startDate : `${startDate} – ${endDate}`}</span>
                   </div>
                 </td>
 
                 {/* Stall Fee */}
                 <td className="py-3 px-3 whitespace-nowrap">
                   {ev.stall_fee_max ? (
-                    <div className="font-semibold text-[#00df81]">
+                    <div className="font-bold text-[#059669]">
                       {ev.stall_fee_min && ev.stall_fee_min !== ev.stall_fee_max
                         ? `₹${ev.stall_fee_min.toLocaleString('en-IN')} – ₹${ev.stall_fee_max.toLocaleString('en-IN')}`
                         : `₹${ev.stall_fee_max.toLocaleString('en-IN')}`}
                     </div>
                   ) : (
-                    <span className="text-[#6e8a7b] italic text-[11px]">Unannounced</span>
+                    <span className="text-[#64748b] italic text-[11px]">Unannounced</span>
                   )}
                 </td>
 
                 {/* Verification Status */}
                 <td className="py-3 px-3 whitespace-nowrap">
                   {ev.verification_status === 'verified' ? (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#00df81]/15 text-[#00df81] border border-[#00df81]/30">
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#ecfdf5] text-[#059669] border border-[#a7f3d0]">
                       <ShieldCheck className="w-3 h-3" /> Verified
                     </span>
                   ) : ev.verification_status === 'unverified' ? (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-950/60 text-amber-300 border border-amber-800/80">
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#fffbeb] text-[#b45309] border border-[#fde68a]">
                       <AlertTriangle className="w-3 h-3" /> Unverified
                     </span>
                   ) : (
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#15241c] text-[#6e8a7b] border border-[#1c3327]">
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#f1f5f9] text-[#64748b] border border-[#cbd5e1]">
                       Partial
                     </span>
                   )}
@@ -149,7 +149,7 @@ export default function EventTableView({
                   <select
                     value={ev.user_status}
                     onChange={(e) => onStatusChange(ev.id, e.target.value as UserStatus)}
-                    className="text-[11px] font-semibold rounded-md px-2 py-1 bg-[#060b08] border border-[#1c3327] text-[#f0fdf4] focus:outline-none focus:border-[#00df81]"
+                    className="text-[11px] font-semibold rounded-lg px-2 py-1 bg-white border border-[#e2ece6] text-[#0f291e] focus:outline-none focus:border-[#059669]"
                   >
                     <option value="new">New Lead</option>
                     <option value="saved">Saved</option>
@@ -169,7 +169,7 @@ export default function EventTableView({
                         href={ev.vendor_booking_url!}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-2.5 py-1 rounded-lg bg-[#00df81] hover:bg-[#00ff87] text-[#060b08] font-black text-[11px] transition shadow"
+                        className="px-2.5 py-1 rounded-lg bg-[#059669] hover:bg-[#047857] text-white font-bold text-[11px] transition shadow-xs"
                         title="Book stall directly"
                       >
                         Book
@@ -180,7 +180,7 @@ export default function EventTableView({
                       href={directionsUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-1 rounded-lg bg-[#0f1a14] hover:bg-[#15241c] text-[#6e8a7b] hover:text-[#00df81] border border-[#1c3327] transition"
+                      className="p-1 rounded-lg bg-white hover:bg-[#f0fdf4] text-[#52796f] hover:text-[#059669] border border-[#e2ece6] transition shadow-xs"
                       title="Google Maps Directions"
                     >
                       <Navigation className="w-3.5 h-3.5" />
@@ -188,10 +188,10 @@ export default function EventTableView({
 
                     <button
                       onClick={() => onOpenDetails(ev)}
-                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#0f1a14] hover:bg-[#15241c] text-[#f0fdf4] border border-[#1c3327] hover:border-[#00df81]/40 text-xs font-semibold transition"
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white hover:bg-[#f0fdf4] text-[#0f291e] border border-[#e2ece6] hover:border-[#a7f3d0] text-xs font-semibold transition shadow-xs"
                     >
                       <span>Intel</span>
-                      <ChevronRight className="w-3.5 h-3.5 text-[#00df81]" />
+                      <ChevronRight className="w-3.5 h-3.5 text-[#059669]" />
                     </button>
                   </div>
                 </td>

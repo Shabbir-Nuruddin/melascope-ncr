@@ -8,11 +8,7 @@ import {
   Search,
   CheckCircle2,
   AlertTriangle,
-  Clock,
   Terminal,
-  ExternalLink,
-  ChevronRight,
-  ShieldCheck,
   RefreshCw,
 } from 'lucide-react';
 
@@ -75,17 +71,17 @@ export default function ResearchAssistantModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#060b08]/85 backdrop-blur-md overflow-y-auto">
-      <div className="relative w-full max-w-3xl bg-[#0c1510] border border-[#1c3327] rounded-2xl shadow-2xl overflow-hidden my-auto max-h-[90vh] flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/40 backdrop-blur-sm overflow-y-auto">
+      <div className="relative w-full max-w-3xl bg-white border border-[#e2ece6] rounded-2xl shadow-2xl overflow-hidden my-auto max-h-[90vh] flex flex-col text-[#0f291e]">
         {/* Modal Header */}
-        <div className="flex items-center justify-between p-5 border-b border-[#1c3327] bg-[#060b08]/80">
+        <div className="flex items-center justify-between p-5 border-b border-[#e2ece6] bg-[#f8faf8]">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#00df81] to-[#059669] flex items-center justify-center text-[#060b08] shadow-md shadow-[#00df81]/20">
-              <Sparkles className="w-5 h-5 text-[#060b08]" />
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#059669] to-[#10b981] flex items-center justify-center text-white shadow-md shadow-[#059669]/20">
+              <Sparkles className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h3 className="font-black text-white text-lg">TETR Scout • Event Discovery Engine</h3>
-              <p className="text-xs text-[#6e8a7b]">
+              <h3 className="font-black text-[#0f291e] text-lg">TETR Scout • Event Discovery Engine</h3>
+              <p className="text-xs text-[#52796f]">
                 Delhi NCR multi-source discovery, verification & commercial scoring
               </p>
             </div>
@@ -93,7 +89,7 @@ export default function ResearchAssistantModal({
 
           <button
             onClick={onClose}
-            className="p-1.5 text-[#6e8a7b] hover:text-white rounded-lg bg-[#0f1a14] border border-[#1c3327] transition"
+            className="p-1.5 text-[#52796f] hover:text-[#0f291e] rounded-xl bg-white border border-[#e2ece6] transition shadow-xs"
           >
             <X className="w-5 h-5" />
           </button>
@@ -103,7 +99,7 @@ export default function ResearchAssistantModal({
         <div className="p-5 sm:p-6 overflow-y-auto space-y-5">
           {/* Query Input Box */}
           <div className="space-y-3">
-            <label className="text-xs font-semibold text-[#f0fdf4] block">
+            <label className="text-xs font-semibold text-[#0f291e] block">
               Describe what events or vendor opportunities you want to discover:
             </label>
             <div className="relative">
@@ -112,13 +108,13 @@ export default function ResearchAssistantModal({
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="e.g. Find weekend melas in Gurugram and Noida over the next 45 days with published stall fees under ₹25,000..."
-                className="w-full bg-[#060b08] border border-[#1c3327] rounded-xl p-3 text-sm text-[#f0fdf4] placeholder-[#6e8a7b] focus:outline-none focus:ring-2 focus:ring-[#00df81]/40 focus:border-[#00df81]"
+                className="w-full bg-[#f8faf8] border border-[#e2ece6] rounded-xl p-3 text-sm text-[#0f291e] placeholder-[#52796f] focus:outline-none focus:ring-2 focus:ring-[#059669]/30 focus:border-[#059669] focus:bg-white transition"
               />
             </div>
 
             {/* Quick Suggestions */}
             <div>
-              <span className="text-[11px] text-[#6e8a7b] block mb-1.5 font-medium">Quick prompt ideas:</span>
+              <span className="text-[11px] text-[#52796f] block mb-1.5 font-semibold">Quick prompt ideas:</span>
               <div className="flex flex-wrap gap-1.5">
                 {PRESET_QUERIES.map((preset, i) => (
                   <button
@@ -127,7 +123,7 @@ export default function ResearchAssistantModal({
                       setQuery(preset);
                       handleLaunchRun(preset);
                     }}
-                    className="text-[11px] text-left bg-[#0f1a14] hover:bg-[#15241c] text-[#f0fdf4] hover:text-[#00df81] border border-[#1c3327] hover:border-[#00df81]/40 px-2.5 py-1 rounded-lg transition"
+                    className="text-[11px] text-left bg-[#f0fdf4] hover:bg-[#e6f7ee] text-[#047857] hover:text-[#059669] border border-[#d1fae5] px-2.5 py-1 rounded-xl transition font-medium"
                   >
                     + {preset}
                   </button>
@@ -137,12 +133,12 @@ export default function ResearchAssistantModal({
 
             {/* Controls Row */}
             <div className="flex items-center justify-between gap-3 pt-2">
-              <div className="flex items-center gap-2 text-xs text-[#6e8a7b]">
-                <span>Horizon:</span>
+              <div className="flex items-center gap-2 text-xs text-[#52796f]">
+                <span className="font-semibold">Horizon:</span>
                 <select
                   value={horizonDays}
                   onChange={(e) => setHorizonDays(parseInt(e.target.value, 10))}
-                  className="bg-[#060b08] border border-[#1c3327] rounded-md py-1 px-2 text-[#f0fdf4] focus:outline-none focus:border-[#00df81]"
+                  className="bg-[#f8faf8] border border-[#e2ece6] rounded-xl py-1.5 px-2.5 text-[#0f291e] focus:outline-none focus:border-[#059669]"
                 >
                   <option value={15}>Next 15 Days</option>
                   <option value={30}>Next 30 Days</option>
@@ -155,16 +151,16 @@ export default function ResearchAssistantModal({
               <button
                 onClick={() => handleLaunchRun()}
                 disabled={isRunning || !query.trim()}
-                className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#00df81] to-[#059669] hover:from-[#00ff87] hover:to-[#10b981] disabled:opacity-50 text-[#060b08] font-black rounded-xl text-xs shadow-lg shadow-[#00df81]/25 transition active:scale-95"
+                className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#059669] to-[#047857] hover:from-[#047857] hover:to-[#065f46] disabled:opacity-50 text-white font-bold rounded-xl text-xs shadow-md shadow-[#059669]/20 transition active:scale-95"
               >
                 {isRunning ? (
                   <>
-                    <RefreshCw className="w-4 h-4 animate-spin text-[#060b08]" />
+                    <RefreshCw className="w-4 h-4 animate-spin text-white" />
                     <span>Executing Discovery Pipeline...</span>
                   </>
                 ) : (
                   <>
-                    <Search className="w-4 h-4 text-[#060b08]" />
+                    <Search className="w-4 h-4 text-white" />
                     <span>Start Research Run</span>
                   </>
                 )}
@@ -174,7 +170,7 @@ export default function ResearchAssistantModal({
 
           {/* Error Message if any */}
           {errorMsg && (
-            <div className="p-3.5 rounded-xl bg-red-950/50 border border-red-900 text-red-300 text-xs flex items-center gap-2">
+            <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 flex-shrink-0" />
               <span>{errorMsg}</span>
             </div>
@@ -182,56 +178,56 @@ export default function ResearchAssistantModal({
 
           {/* Running Progress or Run Results */}
           {isRunning && (
-            <div className="p-5 rounded-xl bg-[#060b08] border border-[#1c3327] space-y-3 animate-pulse">
-              <div className="flex items-center justify-between text-xs text-[#f0fdf4]">
-                <span className="font-semibold text-[#00df81]">Searching Delhi NCR sources & calendar registries...</span>
-                <span>In progress</span>
+            <div className="p-5 rounded-2xl bg-[#f8faf8] border border-[#e2ece6] space-y-3 animate-pulse">
+              <div className="flex items-center justify-between text-xs text-[#0f291e]">
+                <span className="font-bold text-[#059669]">Searching Delhi NCR sources & calendar registries...</span>
+                <span className="font-semibold text-[#52796f]">In progress</span>
               </div>
-              <div className="w-full bg-[#0f1a14] h-2 rounded-full overflow-hidden">
-                <div className="bg-[#00df81] h-full w-2/3 rounded-full animate-progress" />
+              <div className="w-full bg-[#e2ece6] h-2 rounded-full overflow-hidden">
+                <div className="bg-[#059669] h-full w-2/3 rounded-full animate-progress" />
               </div>
-              <p className="text-[11px] text-[#6e8a7b]">
+              <p className="text-[11px] text-[#52796f]">
                 Parsing official organiser announcements, cross-referencing Dilli Haat, Sunder Nursery, Epicentre, and society RWAs...
               </p>
             </div>
           )}
 
           {activeRun && (
-            <div className="space-y-4 pt-2 border-t border-[#1c3327]">
+            <div className="space-y-4 pt-2 border-t border-[#e2ece6]">
               {/* Summary Box */}
-              <div className="p-4 rounded-xl bg-[#060b08] border border-[#1c3327]">
+              <div className="p-4 rounded-2xl bg-[#f8faf8] border border-[#e2ece6]">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#00df81]" />
-                    <span className="font-bold text-white text-xs">Run Completed Successfully</span>
+                    <CheckCircle2 className="w-4 h-4 text-[#059669]" />
+                    <span className="font-bold text-[#0f291e] text-xs">Run Completed Successfully</span>
                   </div>
-                  <span className="text-[10px] text-[#6e8a7b]">
+                  <span className="text-[10px] text-[#52796f] font-semibold">
                     {activeRun.source_count} sources examined • {activeRun.events_found} events found
                   </span>
                 </div>
-                <p className="text-xs text-[#f0fdf4] leading-relaxed mb-3">
+                <p className="text-xs text-[#0f291e] leading-relaxed mb-3">
                   {activeRun.summary}
                 </p>
 
                 {/* Evidence Caveat */}
-                <div className="p-2.5 rounded-lg bg-[#0f1a14] border border-[#1c3327] text-[11px] text-[#6e8a7b]">
-                  <strong className="text-[#00df81]">TETR Data Verification Standard:</strong> New events found have been persisted to your local database with source citations. Unverified leads are marked explicitly.
+                <div className="p-2.5 rounded-xl bg-[#ecfdf5] border border-[#a7f3d0] text-[11px] text-[#065f46]">
+                  <strong className="text-[#059669]">TETR Data Verification Standard:</strong> New events found have been persisted to your local database with source citations. Unverified leads are marked explicitly.
                 </div>
               </div>
 
               {/* Discovery Logs Terminal */}
-              <div className="rounded-xl bg-[#060b08] border border-[#1c3327] p-3 text-xs font-mono">
-                <div className="flex items-center gap-2 text-[#6e8a7b] text-[11px] pb-2 border-b border-[#1c3327] mb-2">
-                  <Terminal className="w-3.5 h-3.5 text-[#00df81]" />
+              <div className="rounded-2xl bg-[#f8faf8] border border-[#e2ece6] p-3 text-xs font-mono">
+                <div className="flex items-center gap-2 text-[#52796f] text-[11px] pb-2 border-b border-[#e2ece6] mb-2 font-semibold">
+                  <Terminal className="w-3.5 h-3.5 text-[#059669]" />
                   <span>Pipeline Execution Logs ({activeRun.logs?.length || 0} steps)</span>
                 </div>
                 <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
                   {activeRun.logs?.map((log: ResearchLogEntry, i: number) => (
                     <div key={i} className="flex items-start gap-2 text-[11px]">
-                      <span className="text-[#6e8a7b] flex-shrink-0">
+                      <span className="text-[#52796f] flex-shrink-0 font-bold">
                         [{log.level.toUpperCase()}]
                       </span>
-                      <span className={log.level === 'success' ? 'text-[#00df81]' : log.level === 'error' ? 'text-red-400' : 'text-[#f0fdf4]'}>
+                      <span className={log.level === 'success' ? 'text-[#059669] font-semibold' : log.level === 'error' ? 'text-red-600' : 'text-[#0f291e]'}>
                         {log.message}
                       </span>
                     </div>
