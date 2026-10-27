@@ -7,6 +7,11 @@ import DashboardStats from '@/components/dashboard/DashboardStats';
 import FilterBar from '@/components/dashboard/FilterBar';
 import EventCard from '@/components/dashboard/EventCard';
 import EventTableView from '@/components/dashboard/EventTableView';
+import EventMap from '@/components/map/EventMap';
+import MailersHub from '@/components/mailers/MailersHub';
+import Footer from '@/components/layout/Footer';
+import CookieConsentBanner from '@/components/legal/CookieConsentBanner';
+import LegalPoliciesModal from '@/components/legal/LegalPoliciesModal';
 import EventDetailModal from '@/components/events/EventDetailModal';
 import ResearchAssistantModal from '@/components/research/ResearchAssistantModal';
 import SettingsModal from '@/components/settings/SettingsModal';
@@ -30,8 +35,8 @@ export default function HomePage() {
     sortBy: 'fit_score',
   });
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
-  const [activeView, setActiveView] = useState<'map' | 'pipeline'>('map');
-  const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
+  const [activeView, setActiveView] = useState<'hub' | 'mailers' | 'pipeline'>('hub');
+  const [viewMode, setViewMode] = useState<'grid' | 'table' | 'map'>('grid');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isScouting, setIsScouting] = useState<boolean>(false);
 
@@ -42,6 +47,8 @@ export default function HomePage() {
   const [isAddEventOpen, setIsAddEventOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [editingEvent, setEditingEvent] = useState<Partial<MelaEvent> | null>(null);
+  const [isPoliciesOpen, setIsPoliciesOpen] = useState(false);
+  const [policiesTab, setPoliciesTab] = useState<'cookie' | 'privacy' | 'terms'>('cookie');
 
   const cardListRef = useRef<HTMLDivElement>(null);
 
@@ -311,7 +318,7 @@ export default function HomePage() {
         isScouting={isScouting}
       />
 
-      {/* Main View: Discovery Workspace OR Pipeline View */}
+      {/* Main View: Hub, Mailers, or Pipeline */}
       {activeView === 'pipeline' ? (
         <PipelineView
           events={events}
@@ -320,6 +327,8 @@ export default function HomePage() {
           onOpenDetails={handleOpenDetails}
           onExportCsv={handleExportCsv}
         />
+      ) : activeView === 'mailers' ? (
+        <MailersHub userProfile={userProfile || undefined} />
       ) : (
         <div className="flex-1 flex flex-col">
           {/* 3. Intuitive Filter & View Bar */}
@@ -335,7 +344,7 @@ export default function HomePage() {
             onViewModeChange={setViewMode}
           />
 
-          {/* 4. Full-Width Intuitive Content Workspace (Map Removed) */}
+          {/* 4. Content Workspace: Cards, Spreadsheet Table, or Interactive Google Map */}
           <div className="flex-1 p-4 sm:p-6 max-w-7xl mx-auto w-full">
             {isLoading ? (
               <div className="flex flex-col items-center justify-center py-28 text-[#627d6d] text-sm">
@@ -357,6 +366,17 @@ export default function HomePage() {
                 >
                   Reset Filters
                 </button>
+              </div>
+            ) : viewMode === 'map' ? (
+              /* Full-Width Interactive Google Maps Platform View */
+              <div className="space-y-4">
+                <EventMap
+                  events={events}
+                  selectedEvent={selectedEvent}
+                  onSelectEvent={handleSelectEvent}
+                  onOpenDetails={handleOpenDetails}
+                  onOpenSettings={() => setIsSettingsOpen(true)}
+                />
               </div>
             ) : viewMode === 'grid' ? (
               /* High-impact 3-column / 2-column Grid */
@@ -437,6 +457,30 @@ export default function HomePage() {
           setEditingEvent(null);
         }}
         onSave={handleSaveManualEvent}
+      />
+
+      {/* Legal & Compliance Policies Modal */}
+      <LegalPoliciesModal
+        isOpen={isPoliciesOpen}
+        onClose={() => setIsPoliciesOpen(false)}
+        initialTab={policiesTab}
+      />
+
+      {/* Floating Cookie & Maps Consent Banner */}
+      <CookieConsentBanner
+        onOpenPolicies={(tab) => {
+          setPoliciesTab(tab || 'cookie');
+          setIsPoliciesOpen(true);
+        }}
+      />
+
+      {/* Clean White & Emerald Footer */}
+      <Footer
+        onOpenPolicies={(tab) => {
+          setPoliciesTab(tab || 'cookie');
+          setIsPoliciesOpen(true);
+        }}
+        onOpenSettings={() => setIsSettingsOpen(true)}
       />
     </div>
   );

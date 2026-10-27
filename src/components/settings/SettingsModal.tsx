@@ -33,10 +33,25 @@ export default function SettingsModal({
   const [horizonDays, setHorizonDays] = useState(45);
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [mapsKeyInput, setMapsKeyInput] = useState('');
+  const [mapsKeySaved, setMapsKeySaved] = useState(false);
 
   useEffect(() => {
     fetchProfile();
+    if (typeof window !== 'undefined') {
+      const storedKey = localStorage.getItem('google_maps_api_key') || '';
+      setMapsKeyInput(storedKey);
+    }
   }, []);
+
+  function handleSaveMapsKey() {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('google_maps_api_key', mapsKeyInput.trim());
+      setMapsKeySaved(true);
+      setTimeout(() => setMapsKeySaved(false), 2500);
+      onProfileUpdated();
+    }
+  }
 
   async function fetchProfile() {
     try {
@@ -287,21 +302,79 @@ export default function SettingsModal({
           {/* TAB 3: API & INTEGRATIONS */}
           {activeTab === 'api' && (
             <div className="space-y-4 text-xs">
+              {/* Google Maps API Key Box */}
+              <div className="p-4 rounded-xl bg-[#f8faf8] border border-[#dce8e1] space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg bg-[#ecfdf5] border border-[#a7f3d0] flex items-center justify-center text-[#059669]">
+                      <Key className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-[#0f291e] text-sm">Google Maps JavaScript API Key</div>
+                      <div className="text-[11px] text-[#527964]">Interactive Google Map tiles, satellite view, and geocoding</div>
+                    </div>
+                  </div>
+
+                  <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
+                    mapsKeyInput.trim().length > 5
+                      ? 'bg-[#ecfdf5] text-[#059669] border border-[#a7f3d0]'
+                      : 'bg-amber-50 text-amber-800 border border-amber-200'
+                  }`}>
+                    {mapsKeyInput.trim().length > 5 ? 'Key Active' : 'Key Not Set'}
+                  </span>
+                </div>
+
+                <p className="text-[11.5px] text-[#3d5a4c] leading-relaxed">
+                  Enter your Google Maps API key below to enable full Google Maps layers, traffic, and high-precision venue mapping across Delhi NCR.
+                </p>
+
+                <div className="space-y-2">
+                  <div className="flex gap-2">
+                    <input
+                      type="password"
+                      value={mapsKeyInput}
+                      onChange={(e) => setMapsKeyInput(e.target.value)}
+                      placeholder="AIzaSy..."
+                      className="flex-1 bg-white border border-[#d8e5dd] rounded-xl px-3 py-2 text-xs text-[#0f291e] font-mono focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
+                    />
+                    <button
+                      onClick={handleSaveMapsKey}
+                      className="px-4 py-2 bg-[#059669] hover:bg-[#047857] text-white font-semibold rounded-xl text-xs transition shadow-sm whitespace-nowrap"
+                    >
+                      {mapsKeySaved ? 'Saved!' : 'Save Key'}
+                    </button>
+                  </div>
+
+                  <div className="flex items-center justify-between text-[11px] text-[#527964] pt-1">
+                    <span>Stored locally in browser & <code className="bg-white px-1 py-0.5 rounded border border-[#d8e5dd]">.env.local</code></span>
+                    <a
+                      href="https://console.cloud.google.com/google/maps-apis/credentials"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#059669] hover:underline font-semibold"
+                    >
+                      Get Key on Google Cloud Console ↗
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Status List */}
               <div className="space-y-2.5">
                 <div className="flex items-center justify-between p-3 rounded-xl bg-[#f8faf8] border border-[#e2ece6]">
                   <div>
-                    <div className="font-semibold text-[#0f291e]">Google Maps Geocoding API</div>
-                    <div className="text-[11px] text-[#52796f]">High precision venue coordinates & directions</div>
+                    <div className="font-semibold text-[#0f291e]">Google Maps Geocoding & Places</div>
+                    <div className="text-[11px] text-[#527964]">Venue coordinate lookup for Delhi, Gurugram, Noida</div>
                   </div>
                   <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#ecfdf5] text-[#059669] border border-[#a7f3d0]">
-                    Configured / Active
+                    Integrated
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between p-3 rounded-xl bg-[#f8faf8] border border-[#e2ece6]">
                   <div>
                     <div className="font-semibold text-[#0f291e]">AI Search & LLM Discovery Service</div>
-                    <div className="text-[11px] text-[#52796f]">Real-time crawling & source extraction</div>
+                    <div className="text-[11px] text-[#527964]">Crawling & source extraction for festive bazaars</div>
                   </div>
                   <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#ecfdf5] text-[#059669] border border-[#a7f3d0]">
                     Ready
@@ -310,8 +383,8 @@ export default function SettingsModal({
 
                 <div className="flex items-center justify-between p-3 rounded-xl bg-[#f8faf8] border border-[#e2ece6]">
                   <div>
-                    <div className="font-semibold text-[#0f291e]">Storage & Database</div>
-                    <div className="text-[11px] text-[#52796f]">31 verified events through December 23rd</div>
+                    <div className="font-semibold text-[#0f291e]">Database & Seed Registry</div>
+                    <div className="text-[11px] text-[#527964]">39 verified Delhi NCR events through Dec 23rd + 8 Organiser Mailers</div>
                   </div>
                   <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#ecfdf5] text-[#059669] border border-[#a7f3d0]">
                     Active File DB

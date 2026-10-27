@@ -373,15 +373,32 @@ export default function EventDetailModal({
               {/* Left: Venue & Footfall */}
               <div className="space-y-4">
                 <div className="p-4 rounded-xl bg-[#f8faf8] border border-[#e2ece6] space-y-3">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-[#52796f]">Venue & Location</h4>
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-[#52796f]">Google Maps & Venue Location</h4>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#ecfdf5] text-[#059669] border border-[#a7f3d0]">
+                      Geocode: {event.geocode_confidence || 'Verified'}
+                    </span>
+                  </div>
                   <div className="flex items-start gap-2 text-xs">
                     <MapPin className="w-4 h-4 text-[#059669] mt-0.5 flex-shrink-0" />
                     <div>
                       <div className="font-semibold text-[#0f291e]">{event.venue_name}</div>
                       <div className="text-[#52796f]">{event.address}</div>
                       <div className="text-[#52796f]">{event.locality}, {event.city}, {event.state}</div>
+                      <div className="text-[10.5px] font-mono text-[#52796f] mt-1">
+                        GPS: {event.latitude.toFixed(4)}° N, {event.longitude.toFixed(4)}° E
+                      </div>
                     </div>
                   </div>
+                  <a
+                    href={directionsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-1.5 w-full py-2 bg-white hover:bg-[#ecfdf5] text-[#059669] border border-[#a7f3d0] rounded-xl text-xs font-semibold shadow-xs transition"
+                  >
+                    <Navigation className="w-3.5 h-3.5 text-[#059669]" />
+                    <span>Open in Google Maps Navigation ↗</span>
+                  </a>
                 </div>
 
                 {/* Footfall & Audience Intelligence */}

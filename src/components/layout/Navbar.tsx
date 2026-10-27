@@ -8,18 +8,23 @@ import {
   Settings,
   PlusCircle,
   Package,
+  Mail,
+  MapPin,
+  Key,
 } from 'lucide-react';
 import { UserProfile } from '@/types';
+import MelaScopeLogo from '@/components/brand/MelaScopeLogo';
 
 interface NavbarProps {
-  activeView: 'map' | 'pipeline';
-  onViewChange: (view: 'map' | 'pipeline') => void;
+  activeView: 'hub' | 'mailers' | 'pipeline';
+  onViewChange: (view: 'hub' | 'mailers' | 'pipeline') => void;
   onOpenResearch: () => void;
   onOpenAddEvent: () => void;
   onOpenSettings: () => void;
   onExportCsv: () => void;
   userProfile?: UserProfile | null;
   savedCount: number;
+  hasGoogleMapsKey?: boolean;
 }
 
 export default function Navbar({
@@ -31,6 +36,7 @@ export default function Navbar({
   onExportCsv,
   userProfile,
   savedCount,
+  hasGoogleMapsKey = false,
 }: NavbarProps) {
   const profileName = userProfile?.product_profile.product_name || 'Handcrafted Artisan Goods';
   const priceRange = userProfile?.product_profile
@@ -39,44 +45,35 @@ export default function Navbar({
 
   return (
     <header className="h-16 bg-white/95 backdrop-blur-md border-b border-[#e2ece6] px-4 sm:px-6 flex items-center justify-between sticky top-0 z-40 shadow-sm">
-      {/* TETR Brand & App Title */}
+      {/* Brand Title & Custom Logo */}
       <div className="flex items-center gap-3">
-        <div className="relative group">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#059669] via-[#047857] to-[#065f46] p-0.5 shadow-md shadow-[#059669]/20">
-            <div className="w-full h-full bg-[#059669] rounded-[10px] flex items-center justify-center font-black text-white">
-              <span className="font-mono text-sm tracking-tighter">TETR</span>
-            </div>
-          </div>
-          <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-[#10b981] rounded-full border-2 border-white" />
-        </div>
-
-        <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-base sm:text-lg font-black tracking-tight text-[#0f291e] flex items-center gap-1.5">
-              <span>MelaScope</span>
-              <span className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-[#ecfdf5] text-[#059669] font-bold border border-[#a7f3d0]">
-                NCR • TETR
-              </span>
-            </h1>
-          </div>
-          <p className="text-[10px] text-[#52796f] hidden sm:block tracking-wide font-medium">
-            Delhi NCR Commercial Event & Venue Intelligence
-          </p>
-        </div>
+        <MelaScopeLogo size="md" showSubtitle={true} />
       </div>
 
       {/* Main View Switchers */}
-      <div className="flex items-center gap-1 bg-[#f0fdf4] border border-[#d1fae5] p-1 rounded-xl text-xs font-semibold">
+      <div className="flex items-center gap-1 bg-[#f0f7f3] border border-[#dce8e1] p-1 rounded-xl text-xs font-semibold">
         <button
-          onClick={() => onViewChange('map')}
+          onClick={() => onViewChange('hub')}
           className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition ${
-            activeView === 'map'
+            activeView === 'hub'
               ? 'bg-[#059669] text-white font-bold shadow-sm'
-              : 'text-[#52796f] hover:text-[#0f291e] hover:bg-[#e6f7ee]'
+              : 'text-[#527964] hover:text-[#0f291e] hover:bg-[#e6f2eb]'
           }`}
         >
           <Compass className="w-4 h-4" />
-          <span className="hidden md:inline">Opportunities Hub</span>
+          <span className="hidden sm:inline">Discovery Hub</span>
+        </button>
+
+        <button
+          onClick={() => onViewChange('mailers')}
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition ${
+            activeView === 'mailers'
+              ? 'bg-[#059669] text-white font-bold shadow-sm'
+              : 'text-[#527964] hover:text-[#0f291e] hover:bg-[#e6f2eb]'
+          }`}
+        >
+          <Mail className="w-4 h-4" />
+          <span>Mailers & Circulars</span>
         </button>
 
         <button
@@ -84,11 +81,11 @@ export default function Navbar({
           className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition ${
             activeView === 'pipeline'
               ? 'bg-[#059669] text-white font-bold shadow-sm'
-              : 'text-[#52796f] hover:text-[#0f291e] hover:bg-[#e6f7ee]'
+              : 'text-[#527964] hover:text-[#0f291e] hover:bg-[#e6f2eb]'
           }`}
         >
           <Bookmark className="w-4 h-4" />
-          <span className="hidden md:inline">Pipeline</span>
+          <span className="hidden sm:inline">Pipeline</span>
           {savedCount > 0 && (
             <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-[#ecfdf5] text-[#059669] font-bold border border-[#a7f3d0]">
               {savedCount}
@@ -108,35 +105,35 @@ export default function Navbar({
           <Package className="w-3.5 h-3.5 text-[#059669] flex-shrink-0" />
           <div className="text-left leading-tight">
             <div className="font-semibold text-[#0f291e] truncate max-w-[140px]">{profileName}</div>
-            <div className="text-[10px] text-[#52796f]">{priceRange}</div>
+            <div className="text-[10px] text-[#527964]">{priceRange}</div>
           </div>
         </div>
 
         {/* Global Add / Import button */}
         <button
           onClick={onOpenAddEvent}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-[#f0fdf4] text-[#0f291e] border border-[#e2ece6] hover:border-[#a7f3d0] rounded-xl text-xs font-semibold transition shadow-sm"
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-[#f0f7f3] text-[#0f291e] border border-[#e2ece6] hover:border-[#a7f3d0] rounded-xl text-xs font-semibold transition shadow-sm"
           title="Import from URL, upload poster/PDF, paste text or add manual event"
         >
           <PlusCircle className="w-4 h-4 text-[#059669]" />
-          <span className="hidden sm:inline">Add Event</span>
+          <span className="hidden md:inline">Add Opportunity</span>
         </button>
 
-        {/* AI Discover Button */}
+        {/* AI Research / Scout trigger */}
         <button
           onClick={onOpenResearch}
-          className="flex items-center gap-1.5 px-3.5 py-1.5 bg-gradient-to-r from-[#059669] to-[#047857] hover:from-[#047857] hover:to-[#065f46] text-white font-bold rounded-xl text-xs shadow-md shadow-[#059669]/20 transition transform active:scale-95"
-          title="Natural Language AI Research Discovery"
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-[#059669] hover:bg-[#047857] text-white font-bold rounded-xl text-xs shadow-sm shadow-[#059669]/20 transition"
+          title="Launch AI Web Scout run across Delhi NCR"
         >
-          <Sparkles className="w-4 h-4 text-white" />
-          <span className="hidden sm:inline">AI Scout</span>
+          <Sparkles className="w-4 h-4" />
+          <span className="hidden lg:inline">AI Scout</span>
         </button>
 
-        {/* Settings Button */}
+        {/* Settings button */}
         <button
           onClick={onOpenSettings}
-          className="p-2 text-[#52796f] hover:text-[#0f291e] bg-white hover:bg-[#f0fdf4] border border-[#e2ece6] rounded-xl transition shadow-sm"
-          title="Workspace Settings, Criteria Weights & API Status"
+          className="p-2 text-[#527964] hover:text-[#0f291e] rounded-xl bg-white border border-[#e2ece6] hover:border-[#a7f3d0] transition shadow-sm"
+          title="Workspace Settings & API Keys"
         >
           <Settings className="w-4 h-4" />
         </button>

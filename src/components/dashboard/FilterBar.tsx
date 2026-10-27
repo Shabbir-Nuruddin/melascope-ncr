@@ -28,8 +28,8 @@ interface FilterBarProps {
   onOpenAddEvent: () => void;
   onOpenResearch: () => void;
   totalCount: number;
-  viewMode: 'grid' | 'table';
-  onViewModeChange: (mode: 'grid' | 'table') => void;
+  viewMode: 'grid' | 'table' | 'map';
+  onViewModeChange: (mode: 'grid' | 'table' | 'map') => void;
 }
 
 export default function FilterBar({
@@ -148,7 +148,7 @@ export default function FilterBar({
 
           {/* View Toggle & Action Buttons */}
           <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
-            {/* View Mode Toggle: Grid vs Table */}
+            {/* View Mode Toggle: Grid vs Table vs Map */}
             <div className="flex items-center bg-[#f0fdf4] border border-[#d1fae5] p-1 rounded-xl text-xs font-semibold">
               <button
                 onClick={() => onViewModeChange('grid')}
@@ -173,6 +173,18 @@ export default function FilterBar({
               >
                 <TableIcon className="w-3.5 h-3.5" />
                 <span>Table</span>
+              </button>
+              <button
+                onClick={() => onViewModeChange('map')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition ${
+                  viewMode === 'map'
+                    ? 'bg-[#059669] text-white font-bold shadow-xs'
+                    : 'text-[#52796f] hover:text-[#0f291e]'
+                }`}
+                title="Interactive Google Map View"
+              >
+                <MapPin className="w-3.5 h-3.5" />
+                <span>Google Map</span>
               </button>
             </div>
 
