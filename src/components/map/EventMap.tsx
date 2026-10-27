@@ -81,18 +81,36 @@ export default function EventMap({
   const [hasGoogleKey, setHasGoogleKey] = useState<boolean>(false);
 
   useEffect(() => {
-    // Check key from env or from localStorage
-    const envKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-    const localKey = typeof window !== 'undefined' ? localStorage.getItem('google_maps_api_key') : null;
-    const activeKey = (localKey && localKey.trim().length > 5) ? localKey : envKey;
+    async function initMapEngine() {
+      // 1. Check client-side env or localStorage
+      const envKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+      const localKey = typeof window !== 'undefined' ? localStorage.getItem('google_maps_api_key') : null;
+      let activeKey = (localKey && localKey.trim().length > 5) ? localKey : envKey;
 
-    if (activeKey && activeKey.trim().length > 5 && !activeKey.includes('YOUR_')) {
-      setHasGoogleKey(true);
-      loadGoogleMaps(activeKey.trim());
-    } else {
-      setHasGoogleKey(false);
-      loadLeafletMap();
+      // 2. If not on client, securely fetch from backend /api/maps/config
+      if (!activeKey || activeKey.trim().length <= 5) {
+        try {
+          const res = await fetch('/api/maps/config');
+          const data = await res.json();
+          if (data.configured && data.apiKey) {
+            activeKey = data.apiKey;
+          }
+        } catch (err) {
+          console.warn('Backend maps config check failed:', err);
+        }
+      }
+
+      // 3. Mount Google Maps or clean OpenStreetMap fallback
+      if (activeKey && activeKey.trim().length > 5 && !activeKey.includes('YOUR_')) {
+        setHasGoogleKey(true);
+        loadGoogleMaps(activeKey.trim());
+      } else {
+        setHasGoogleKey(false);
+        loadLeafletMap();
+      }
     }
+
+    initMapEngine();
 
     return () => {
       if (mapInstanceRef.current) {
